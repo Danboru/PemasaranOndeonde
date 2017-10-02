@@ -21,12 +21,12 @@ public class Konsumen {
     private int pendidikanKonsumen;
 
     //True - False
-    boolean pengetahuanTentangBarang, ketertarikanBarang, hargaMenurutKonsumen;
+    boolean pengetahuanTentangBarang, ketertarikanBarang, hargaMenurutKonsumen, prediksiPembelian;
 
     public Konsumen() {
     }
 
-    public Konsumen(String konsumenId, int jenisKelamin, int umurKonsumen, int pekerjaanKonsumen, int pendidikanKonsumen, boolean pengetahuanTentangBarang, boolean ketertarikanBarang, boolean hargaMenurutKonsumen) {
+    public Konsumen(String konsumenId, int jenisKelamin, int umurKonsumen, int pekerjaanKonsumen, int pendidikanKonsumen, boolean pengetahuanTentangBarang, boolean ketertarikanBarang, boolean hargaMenurutKonsumen, boolean prediksiPembelian) {
         this.konsumenId = konsumenId;
         this.jenisKelamin = jenisKelamin;
         this.umurKonsumen = umurKonsumen;
@@ -35,6 +35,7 @@ public class Konsumen {
         this.pengetahuanTentangBarang = pengetahuanTentangBarang;
         this.ketertarikanBarang = ketertarikanBarang;
         this.hargaMenurutKonsumen = hargaMenurutKonsumen;
+        this.prediksiPembelian = prediksiPembelian;
     }
 
     public String getKonsumenId() {
@@ -99,5 +100,13 @@ public class Konsumen {
 
     public void setHargaMenurutKonsumen(boolean hargaMenurutKonsumen) {
         this.hargaMenurutKonsumen = hargaMenurutKonsumen;
+    }
+
+    public boolean isPrediksiPembelian() {
+        return prediksiPembelian;
+    }
+
+    public void setPrediksiPembelian(boolean prediksiPembelian) {
+        this.prediksiPembelian = prediksiPembelian;
     }
 }

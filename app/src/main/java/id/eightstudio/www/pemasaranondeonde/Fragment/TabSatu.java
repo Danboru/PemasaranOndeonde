@@ -15,7 +15,11 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.ArrayList;
+
+import id.eightstudio.www.pemasaranondeonde.Provider.Konsumen;
 import id.eightstudio.www.pemasaranondeonde.R;
+import id.eightstudio.www.pemasaranondeonde.Utils.PrediksiPembelian;
 
 public class TabSatu extends Fragment {
     private static final String TAG = "TabSatu";
@@ -27,7 +31,7 @@ public class TabSatu extends Fragment {
             adapterPengetahuanTentangBarang, adapterKetertarikanBarang, adapterHargaMenurutKonsumen;
     private Button buttonSimpanData;
 
-
+    ArrayList<Konsumen> dataKonsumen;
 
     //Konversi data
     int dataJenisKelamin, dataUmurKonsumen, dataPekerjaanKonsumen, dataPendidikanKonsumen;
@@ -38,6 +42,48 @@ public class TabSatu extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = LayoutInflater.from(container.getContext()).inflate(R.layout.activity_tab_satu, container, false);
         bindView(view);
+        adapterInit();
+        setAdapter();
+
+        dataKonsumen = new ArrayList<>();
+
+        //Simpan data
+        buttonSimpanData.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                pilihUmur(umurKonsumen.getSelectedItem().toString());
+                pilihJenisKelamin(jenisKelamin.getSelectedItem().toString());
+                pilihpekerjaanKonsumen(pekerjaanKonsumen.getSelectedItem().toString());
+                pilihPendidikan(pendidikanKonsumen.getSelectedItem().toString());
+                pengetahuanBarang(pengetahuanTentangBarang.getSelectedItem().toString());
+                ketertarikanBarang(ketertarikanBarang.getSelectedItem().toString());
+                hargaBarang(hargaMenurutKonsumen.getSelectedItem().toString());
+
+                dataKonsumen.add(new Konsumen("Input EditText", dataJenisKelamin, dataUmurKonsumen, dataPekerjaanKonsumen,
+                        dataPendidikanKonsumen, dataPengetahuanTentangBarang, dataKetertarikanBarang, dataHargaMenurutKonsumen,
+
+                        PrediksiPembelian.prediksiPembelian(dataJenisKelamin, dataUmurKonsumen,
+                                                            dataPekerjaanKonsumen, dataPendidikanKonsumen,
+                                                            dataPengetahuanTentangBarang, dataKetertarikanBarang,
+                                                            dataHargaMenurutKonsumen)));
+
+                Log.d(TAG, "Kelamin : "  + dataJenisKelamin);
+                Log.d(TAG, "Umur : "  + dataUmurKonsumen);
+                Log.d(TAG, "Pekerjaan : "  + dataPekerjaanKonsumen);
+                Log.d(TAG, "Pendidikan : "  + dataPendidikanKonsumen);
+                Log.d(TAG, "Pengetahuan : "  + dataPengetahuanTentangBarang);
+                Log.d(TAG, "Ketertarikan : "  + dataKetertarikanBarang);
+                Log.d(TAG, "Harga : "  + dataHargaMenurutKonsumen);
+
+                Log.d(TAG, "Keputusan Beli : " + PrediksiPembelian.keputusanBeli);
+            }
+        });
+        
+        return view;
+    }
+
+    public void adapterInit(){
 
         adapterJenisKelamin = ArrayAdapter.createFromResource(getContext(),R.array.jenis_kelamin, android.R.layout.simple_spinner_item);
         adapterUmurKonsumen = ArrayAdapter.createFromResource(getContext(),R.array.umur_konsumen, android.R.layout.simple_spinner_item);
@@ -54,34 +100,13 @@ public class TabSatu extends Fragment {
         adapterPengetahuanTentangBarang.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         adapterKetertarikanBarang.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         adapterHargaMenurutKonsumen.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        
-        adapterBinding();
 
-        //Simpan data
-        buttonSimpanData.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                pilihUmur(umurKonsumen.getSelectedItem().toString());
-                pilihJenisKelamin(jenisKelamin.getSelectedItem().toString());
-                pilihpekerjaanKonsumen(pekerjaanKonsumen.getSelectedItem().toString());
-                pilihPendidikan(pendidikanKonsumen.getSelectedItem().toString());
-                pengetahuanBarang(pengetahuanTentangBarang.getSelectedItem().toString());
-                ketertarikanBarang(ketertarikanBarang.getSelectedItem().toString());
-                hargaBarang(hargaMenurutKonsumen.getSelectedItem().toString());
-
-
-
-            }
-        });
-        
-        return view;
     }
 
     /***
      * Fungsi ini di gunakan untuk menset adapter ke spinner/dropdown yang di gunakan
      * */
-    private void adapterBinding() {
+    private void setAdapter() {
 
         jenisKelamin.setAdapter(adapterJenisKelamin);
         umurKonsumen.setAdapter(adapterUmurKonsumen);
@@ -218,5 +243,6 @@ public class TabSatu extends Fragment {
         }
         return dataHargaMenurutKonsumen;
     }
+
 
 }

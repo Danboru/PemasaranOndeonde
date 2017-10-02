@@ -2,6 +2,7 @@ package id.eightstudio.www.pemasaranondeonde.Adapter;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.view.ViewGroup;
 
 /**
  * Created by danbo on 10/2/17.
@@ -9,9 +10,22 @@ import android.view.View;
 
 public class RecyclerViewAllData extends RecyclerView.Adapter<RecyclerViewAllData.ViewHolder> {
 
+    @Override
+    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        return null;
+    }
+
+    @Override
+    public void onBindViewHolder(ViewHolder holder, int position) {
+
+    }
+
+    @Override
+    public int getItemCount() {
+        return 0;
+    }
+
     public class ViewHolder extends RecyclerView.ViewHolder {
-
-
 
         public ViewHolder(View itemView) {
             super(itemView);
