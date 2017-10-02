@@ -1,0 +1,46 @@
+<resources>
+    <string name="app_name">Pemasaran Ondeonde</string>
+
+    <array name="jenis_kelamin">
+        <item>Laki-Laki</item>
+        <item>Perempuan</item>
+    </array>
+
+    <array name="umur_konsumen">
+        <item>10 - 29</item>
+        <item>30 - 49</item>
+        <item>>=50</item>
+    </array>
+
+    <array name="pekerjaan_konsumen">
+        <item>Pelajar/Mahasiswa</item>
+        <item>PNS</item>
+        <item>Swasta</item>
+        <item>Lain - Lain</item>
+    </array>
+
+    <array name="pendidikan_konsumen">
+        <item>SD</item>
+        <item>SLTP</item>
+        <item>SLTA</item>
+        <item>Diploma</item>
+        <item>Sarjana</item>
+        <item>Lain - Lain</item>
+    </array>
+
+    <array name="pengetahuan_barang">
+        <item>Tahu</item>
+        <item>Tidak Tahu</item>
+    </array>
+
+    <array name="ketertarikan_barang">
+        <item>Tertarik</item>
+        <item>Tidak Tertarik</item>
+    </array>
+
+    <array name="harga_barang">
+        <item>Sesuai</item>
+        <item>Tidak Sesuai</item>
+    </array>
+
+</resources>
