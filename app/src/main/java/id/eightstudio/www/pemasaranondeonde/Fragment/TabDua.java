@@ -1,13 +1,18 @@
 package id.eightstudio.www.pemasaranondeonde.Fragment;
 
+import android.app.Dialog;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.LinearLayout;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -23,6 +28,8 @@ public class TabDua extends Fragment {
     ArrayList<Konsumen> dataListKonsumen = new ArrayList<>();
     RecyclerView viewAllData;
     OpenHelper database;
+    AdapterRecyclerViewAllData adapter;
+    SwipeRefreshLayout swipeRefreshLayout;
 
     @Nullable
     @Override
@@ -30,19 +37,30 @@ public class TabDua extends Fragment {
         View view = LayoutInflater.from(container.getContext()).inflate(R.layout.activity_tab_dua, container, false);
 
         viewAllData = view.findViewById(R.id.recyclerViewViewAllData);
+        swipeRefreshLayout = view.findViewById(R.id.swipeRefreshMain);
 
-//        Random random = new Random();
-//        for (int i = 0; i < 10; i++) {
-//            int acak = random.nextInt(2);
-//            dataListKonsumen.add(new Konsumen("User " + i, acak, acak, acak, acak, acak, acak, acak, acak, acak));
-//        }
         database = new OpenHelper(view.getContext());
         dataListKonsumen = database.getAllKonsumen();
 
-        AdapterRecyclerViewAllData adapter = new AdapterRecyclerViewAllData(dataListKonsumen);
+        adapter = new AdapterRecyclerViewAllData(dataListKonsumen, view.getContext());
         viewAllData.setAdapter(adapter);
         viewAllData.setHasFixedSize(true);
         viewAllData.setLayoutManager(new LinearLayoutManager(getContext()));
+
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                adapter.notifyDataSetChanged();
+                dataListKonsumen.clear();
+                dataListKonsumen.addAll(database.getAllKonsumen());
+                onItemsLoadComplete();
+            }
+        });
+
         return view;
+    }
+
+    private void onItemsLoadComplete() {
+        swipeRefreshLayout.setRefreshing(false);
     }
 }

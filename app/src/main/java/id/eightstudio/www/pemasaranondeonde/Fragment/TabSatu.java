@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -34,6 +35,7 @@ public class TabSatu extends Fragment {
     private ArrayAdapter adapterJenisKelamin, adapterUmurKonsumen, adapterPekerjaanKonsumen, adapterPendidikanKonsumen,
             adapterPengetahuanTentangBarang, adapterKetertarikanBarang, adapterHargaMenurutKonsumen;
     private Button buttonSimpanData;
+    private EditText inputNama;
 
     ArrayList<Konsumen> dataKonsumen;
 
@@ -68,7 +70,9 @@ public class TabSatu extends Fragment {
                 ketertarikanBarang(ketertarikanBarang.getSelectedItem().toString());
                 hargaBarang(hargaMenurutKonsumen.getSelectedItem().toString());
 
-                dataKonsumen.add(new Konsumen("Danang", dataJenisKelamin, dataUmurKonsumen, dataPekerjaanKonsumen,
+
+
+                dataKonsumen.add(new Konsumen(inputNama.getText().toString() , dataJenisKelamin, dataUmurKonsumen, dataPekerjaanKonsumen,
                         dataPendidikanKonsumen, dataPengetahuanTentangBarang, dataKetertarikanBarang, dataHargaMenurutKonsumen,
 
                         PrediksiPembelian.prediksiPembelian(dataJenisKelamin, dataUmurKonsumen,
@@ -76,9 +80,13 @@ public class TabSatu extends Fragment {
                                                             dataPengetahuanTentangBarang, dataKetertarikanBarang,
                                                             dataHargaMenurutKonsumen), 2));
 
-                Log.d(TAG, "Jumlah User " + database.getKonsumenCount());
-                Log.d(TAG, "Single User, Umur = " + database.getSingleKonsumen(0).getUmurKonsumen());
-                Log.d(TAG, "Nama = " + database.getSingleKonsumen(7).getKonsumenId());
+                database.addUser(new Konsumen(inputNama.getText().toString() , dataJenisKelamin, dataUmurKonsumen, dataPekerjaanKonsumen,
+                        dataPendidikanKonsumen, dataPengetahuanTentangBarang, dataKetertarikanBarang, dataHargaMenurutKonsumen,
+
+                        PrediksiPembelian.prediksiPembelian(dataJenisKelamin, dataUmurKonsumen,
+                                dataPekerjaanKonsumen, dataPendidikanKonsumen,
+                                dataPengetahuanTentangBarang, dataKetertarikanBarang,
+                                dataHargaMenurutKonsumen), 2));
 
             }
         });
@@ -136,6 +144,7 @@ public class TabSatu extends Fragment {
         pengetahuanTentangBarang = view.findViewById(R.id.spinner_pengetahuanBarang);
         ketertarikanBarang = view.findViewById(R.id.spinner_ketertarikanBarang);
         hargaMenurutKonsumen = view.findViewById(R.id.spinner_hargamenurutKonsumen);
+        inputNama = view.findViewById(R.id.txtInputMain);
 
     }
 
