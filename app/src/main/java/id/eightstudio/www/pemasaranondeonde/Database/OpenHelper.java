@@ -149,7 +149,7 @@ public class OpenHelper extends SQLiteOpenHelper  {
     }
 
     //FIX
-    public int updateUser(Konsumen kosumen, int position) {
+    public int updateUser(Konsumen kosumen, Konsumen position) {
         SQLiteDatabase db = this.getWritableDatabase();
 
         ContentValues values = new ContentValues();
@@ -160,7 +160,7 @@ public class OpenHelper extends SQLiteOpenHelper  {
                 new String[] { String.valueOf(position) });
     }
 
-    //BUG
+    //FIX
     public void deleteKonsumen(int id) {
         SQLiteDatabase db = this.getWritableDatabase();
         db.delete(TABLE_USER, KEY_COSTUMER_ID + " = ?",

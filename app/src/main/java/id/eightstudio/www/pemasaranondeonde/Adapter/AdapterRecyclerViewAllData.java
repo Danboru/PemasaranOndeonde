@@ -98,27 +98,26 @@ public class AdapterRecyclerViewAllData extends RecyclerView.Adapter<AdapterRecy
         EditText keputusanBeli = dialog.findViewById(R.id.edt_keputusanBeli);
         keputusanBeli.setText(String.valueOf(data));
 
-        //Cancel
+        //Cancel (FIX)
         Button cancel = dialog.findViewById(R.id.cancelSave);
         cancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
                 Konsumen konsumen = new Konsumen();
-                Toast.makeText(context, "" + posisi , Toast.LENGTH_SHORT).show();
-
                 dialog.dismiss();
             }
         });
 
-        //Save
+        //Save (BUG)
         Button save = dialog.findViewById(R.id.saveData);
         save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
+                Konsumen konsumen = dataList.get(posisi);
                 OpenHelper database = new OpenHelper(context);
-                database.updateUser(new Konsumen(1), posisi + 1);
+                database.updateUser(new Konsumen(1), dataList.get(posisi));
                 database.close();
 
                 dialog.dismiss();
@@ -126,22 +125,21 @@ public class AdapterRecyclerViewAllData extends RecyclerView.Adapter<AdapterRecy
         });
 
 
-        //Delete
+        //Delete (FIX)
         Button delete = dialog.findViewById(R.id.deleteData);
         delete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
+                Konsumen konsumen = dataList.get(posisi);
                 OpenHelper database = new OpenHelper(context);
-                database.deleteKonsumen(posisi);
-                Toast.makeText(context, "" + posisi, Toast.LENGTH_SHORT).show();
+                database.deleteKonsumen(konsumen.getIdUser());
+                Toast.makeText(context, "" + konsumen.getIdUser() , Toast.LENGTH_SHORT).show();
                 database.close();
                 dialog.dismiss();
             }
         });
-
         dialog.show();
-
     }
 
 }
