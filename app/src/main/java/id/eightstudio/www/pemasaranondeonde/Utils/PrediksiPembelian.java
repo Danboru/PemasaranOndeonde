@@ -9,60 +9,60 @@ import android.util.Log;
 public class PrediksiPembelian {
     private static final String TAG = "TabSatu";
 
-    public static boolean keputusanBeli = false;
+    public static int keputusanBeli = 0;
 
-    public static boolean prediksiPembelian(int jenisKelamin, int umurPelanggan, int pekerjaanKonsumen,
-                                            int pendidikanKonsumen, boolean pengetahuanBarang, boolean ketertarikanBarang, boolean hargaBarang) {
+    public static int prediksiPembelian(int jenisKelamin, int umurPelanggan, int pekerjaanKonsumen,
+                                            int pendidikanKonsumen, int pengetahuanBarang, int ketertarikanBarang, int hargaBarang) {
 
-        if ((hargaBarang == true) && (ketertarikanBarang == true)) {
+        if ((hargaBarang == 1) && (ketertarikanBarang == 1)) {
             Log.d(TAG, "Menjalankan Rule : " + 1);
-            keputusanBeli = true;
+            keputusanBeli = 1;
         } else {
             Log.d(TAG, "Menjalankan Rule : " + 2);
-            if ((hargaBarang == true) && (ketertarikanBarang == false) && (pendidikanKonsumen == 4)) {
-                keputusanBeli = false;
+            if ((hargaBarang == 1) && (ketertarikanBarang == 2) && (pendidikanKonsumen == 4)) {
+                keputusanBeli = 1;
             } else {
                 Log.d(TAG, "Menjalankan Rule : " + 3);
-                if((hargaBarang == true) && (ketertarikanBarang == false) && (pendidikanKonsumen == 5)){
-                    ketertarikanBarang = false;
+                if((hargaBarang == 1) && (ketertarikanBarang == 2) && (pendidikanKonsumen == 5)){
+                    ketertarikanBarang = 2;
                 } else {
                     Log.d(TAG, "Menjalankan Rule : " + 4);
-                    if ((hargaBarang == true) && (ketertarikanBarang == false) && (pendidikanKonsumen == 1) && (umurPelanggan == 2)) {
-                        keputusanBeli = true;
+                    if ((hargaBarang == 1) && (ketertarikanBarang == 2) && (pendidikanKonsumen == 1) && (umurPelanggan == 2)) {
+                        keputusanBeli = 1;
                     } else {
                         Log.d(TAG, "Menjalankan Rule : " + 5);
-                        if ((hargaBarang == true) && (ketertarikanBarang == false) && (pendidikanKonsumen == 1) && (umurPelanggan == 1)) {
-                            keputusanBeli = false;
+                        if ((hargaBarang == 1) && (ketertarikanBarang == 2) && (pendidikanKonsumen == 1) && (umurPelanggan == 1)) {
+                            keputusanBeli = 2;
                         } else {
                             Log.d(TAG, "Menjalankan Rule : " + 6);
-                            if ((hargaBarang == true) && (ketertarikanBarang == false) && (pendidikanKonsumen == 3) && (umurPelanggan == 2)) {
-                                keputusanBeli = true;
+                            if ((hargaBarang == 1) && (ketertarikanBarang == 2) && (pendidikanKonsumen == 3) && (umurPelanggan == 2)) {
+                                keputusanBeli = 1;
                             } else {
                                 Log.d(TAG, "Menjalankan Rule : " + 7);
-                                if ((hargaBarang == true) && (ketertarikanBarang == false) && (pendidikanKonsumen == 3) && (umurPelanggan == 1) && (jenisKelamin == 2)) {
-                                    keputusanBeli = true;
+                                if ((hargaBarang == 1) && (ketertarikanBarang == 2) && (pendidikanKonsumen == 3) && (umurPelanggan == 1) && (jenisKelamin == 2)) {
+                                    keputusanBeli = 1;
                                 } else {
                                     Log.d(TAG, "Menjalankan Rule : " + 8);
-                                    if ((umurPelanggan == 1) && (jenisKelamin == 1) && (pekerjaanKonsumen == 3) && (pengetahuanBarang == true)){
-                                        keputusanBeli = true;
+                                    if ((umurPelanggan == 1) && (jenisKelamin == 1) && (pekerjaanKonsumen == 3) && (pengetahuanBarang == 1)){
+                                        keputusanBeli = 1;
                                     } else {
                                         Log.d(TAG, "Menjalankan Rule : " + 9);
-                                        if ((hargaBarang = true) && (ketertarikanBarang = false) && (pendidikanKonsumen == 3) && (umurPelanggan == 1) && (jenisKelamin == 1) && (pekerjaanKonsumen == 3) && (pengetahuanBarang = true)) {
-                                            keputusanBeli = false;
+                                        if ((hargaBarang == 1) && (ketertarikanBarang == 2) && (pendidikanKonsumen == 3) && (umurPelanggan == 1) && (jenisKelamin == 1) && (pekerjaanKonsumen == 3) && (pengetahuanBarang == 1)) {
+                                            keputusanBeli = 2;
                                         } else {
                                             Log.d(TAG, "Menjalankan Rule : " + 10);
-                                            if ((hargaBarang == false) && (ketertarikanBarang == false)){
-                                                keputusanBeli = false;
+                                            if ((hargaBarang == 2) && (ketertarikanBarang == 2)){
+                                                keputusanBeli = 2;
                                             } else {
                                                 Log.d(TAG, "Menjalankan Rule : " + 11);
-                                                if ((hargaBarang == false) && (ketertarikanBarang == true) && (umurPelanggan == 2)) {
-                                                    keputusanBeli = true;
+                                                if ((hargaBarang == 2) && (ketertarikanBarang == 1) && (umurPelanggan == 2)) {
+                                                    keputusanBeli = 1;
                                                 } else {
                                                     Log.d(TAG, "Menjalankan Rule : " + 12);
-                                                    if ((hargaBarang == false) && (ketertarikanBarang == true) && (umurPelanggan == 1)){
-                                                        keputusanBeli = false;
+                                                    if ((hargaBarang == 2) && (ketertarikanBarang == 1) && (umurPelanggan == 1)){
+                                                        keputusanBeli = 2;
                                                     } else {
-                                                        keputusanBeli = false;
+                                                        keputusanBeli = 2;
                                                     }
                                                 }
                                             }

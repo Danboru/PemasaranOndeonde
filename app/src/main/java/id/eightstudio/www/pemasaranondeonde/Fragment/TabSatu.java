@@ -4,6 +4,8 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,6 +19,8 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 
+import id.eightstudio.www.pemasaranondeonde.Adapter.AdapterRecyclerViewAllData;
+import id.eightstudio.www.pemasaranondeonde.Database.OpenHelper;
 import id.eightstudio.www.pemasaranondeonde.Provider.Konsumen;
 import id.eightstudio.www.pemasaranondeonde.R;
 import id.eightstudio.www.pemasaranondeonde.Utils.PrediksiPembelian;
@@ -35,12 +39,16 @@ public class TabSatu extends Fragment {
 
     //Konversi data
     int dataJenisKelamin, dataUmurKonsumen, dataPekerjaanKonsumen, dataPendidikanKonsumen;
-    boolean dataPengetahuanTentangBarang, dataKetertarikanBarang, dataHargaMenurutKonsumen;
+    int dataPengetahuanTentangBarang, dataKetertarikanBarang, dataHargaMenurutKonsumen;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = LayoutInflater.from(container.getContext()).inflate(R.layout.activity_tab_satu, container, false);
+
+        Log.d(TAG, "Database Status : " + "Database berhasil di buat ");
+        final OpenHelper database = new OpenHelper(getContext());
+
         bindView(view);
         adapterInit();
         setAdapter();
@@ -60,23 +68,18 @@ public class TabSatu extends Fragment {
                 ketertarikanBarang(ketertarikanBarang.getSelectedItem().toString());
                 hargaBarang(hargaMenurutKonsumen.getSelectedItem().toString());
 
-                dataKonsumen.add(new Konsumen("Input EditText", dataJenisKelamin, dataUmurKonsumen, dataPekerjaanKonsumen,
+                dataKonsumen.add(new Konsumen("Danang", dataJenisKelamin, dataUmurKonsumen, dataPekerjaanKonsumen,
                         dataPendidikanKonsumen, dataPengetahuanTentangBarang, dataKetertarikanBarang, dataHargaMenurutKonsumen,
 
                         PrediksiPembelian.prediksiPembelian(dataJenisKelamin, dataUmurKonsumen,
                                                             dataPekerjaanKonsumen, dataPendidikanKonsumen,
                                                             dataPengetahuanTentangBarang, dataKetertarikanBarang,
-                                                            dataHargaMenurutKonsumen)));
+                                                            dataHargaMenurutKonsumen), 2));
 
-                Log.d(TAG, "Kelamin : "  + dataJenisKelamin);
-                Log.d(TAG, "Umur : "  + dataUmurKonsumen);
-                Log.d(TAG, "Pekerjaan : "  + dataPekerjaanKonsumen);
-                Log.d(TAG, "Pendidikan : "  + dataPendidikanKonsumen);
-                Log.d(TAG, "Pengetahuan : "  + dataPengetahuanTentangBarang);
-                Log.d(TAG, "Ketertarikan : "  + dataKetertarikanBarang);
-                Log.d(TAG, "Harga : "  + dataHargaMenurutKonsumen);
+                Log.d(TAG, "Jumlah User " + database.getKonsumenCount());
+                Log.d(TAG, "Single User, Umur = " + database.getSingleKonsumen(0).getUmurKonsumen());
+                Log.d(TAG, "Nama = " + database.getSingleKonsumen(7).getKonsumenId());
 
-                Log.d(TAG, "Keputusan Beli : " + PrediksiPembelian.keputusanBeli);
             }
         });
         
@@ -215,31 +218,31 @@ public class TabSatu extends Fragment {
     }
 
     //True - False
-    boolean pengetahuanBarang(String pengetahuanBarang) {
+    int pengetahuanBarang(String pengetahuanBarang) {
         if (pengetahuanBarang.equalsIgnoreCase("Tahu")){
-            dataPengetahuanTentangBarang = true;
+            dataPengetahuanTentangBarang = 1;
         } else {
-            dataPengetahuanTentangBarang = false;
+            dataPengetahuanTentangBarang = 2;
         }
         return dataPengetahuanTentangBarang;
     }
 
     //True - False
-    boolean ketertarikanBarang(String ketertarikanBarang){
+    int ketertarikanBarang(String ketertarikanBarang){
         if (ketertarikanBarang.equalsIgnoreCase("Tertarik")){
-            dataKetertarikanBarang = true;
+            dataKetertarikanBarang = 1;
         } else {
-            dataKetertarikanBarang = false;
+            dataKetertarikanBarang = 2;
         }
         return dataKetertarikanBarang;
     }
 
     //True - False
-    boolean hargaBarang(String hargabarang){
+    int hargaBarang(String hargabarang){
         if (hargabarang.equalsIgnoreCase("Sesuai")){
-            dataHargaMenurutKonsumen = true;
+            dataHargaMenurutKonsumen = 1;
         } else {
-            dataHargaMenurutKonsumen = false;
+            dataHargaMenurutKonsumen = 2;
         }
         return dataHargaMenurutKonsumen;
     }

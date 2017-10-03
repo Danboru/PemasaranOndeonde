@@ -7,13 +7,29 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        >
 
         <TextView
-            android:id="@+id/txt"
+            android:id="@+id/txtNamaUser"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Users"
+            android:text="Nama User"
+            />
+
+        <TextView
+            android:id="@+id/txtJenisKelamin"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Jenis Kelamin"
+            />
+
+        <TextView
+            android:id="@+id/txtPrediksiPembelian"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Prediksi Pembelian"
             />
 
     </LinearLayout>

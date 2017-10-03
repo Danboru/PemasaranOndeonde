@@ -20,22 +20,10 @@ public class Konsumen {
     // 1 = SD, 2 = SLTP, 3 = SLTA, 4 = Diploma, 5 = Sarjana, 5 = Lain - lain
     private int pendidikanKonsumen;
 
-    //True - False
-    boolean pengetahuanTentangBarang, ketertarikanBarang, hargaMenurutKonsumen, prediksiPembelian;
+    //1 = True, 2= False
+    int pengetahuanTentangBarang, ketertarikanBarang, hargaMenurutKonsumen, prediksiPembelian, realitaPembelian;
 
     public Konsumen() {
-    }
-
-    public Konsumen(String konsumenId, int jenisKelamin, int umurKonsumen, int pekerjaanKonsumen, int pendidikanKonsumen, boolean pengetahuanTentangBarang, boolean ketertarikanBarang, boolean hargaMenurutKonsumen, boolean prediksiPembelian) {
-        this.konsumenId = konsumenId;
-        this.jenisKelamin = jenisKelamin;
-        this.umurKonsumen = umurKonsumen;
-        this.pekerjaanKonsumen = pekerjaanKonsumen;
-        this.pendidikanKonsumen = pendidikanKonsumen;
-        this.pengetahuanTentangBarang = pengetahuanTentangBarang;
-        this.ketertarikanBarang = ketertarikanBarang;
-        this.hargaMenurutKonsumen = hargaMenurutKonsumen;
-        this.prediksiPembelian = prediksiPembelian;
     }
 
     public String getKonsumenId() {
@@ -78,35 +66,58 @@ public class Konsumen {
         this.pendidikanKonsumen = pendidikanKonsumen;
     }
 
-    public boolean isPengetahuanTentangBarang() {
+    public int getPengetahuanTentangBarang() {
         return pengetahuanTentangBarang;
     }
 
-    public void setPengetahuanTentangBarang(boolean pengetahuanTentangBarang) {
+    public void setPengetahuanTentangBarang(int pengetahuanTentangBarang) {
         this.pengetahuanTentangBarang = pengetahuanTentangBarang;
     }
 
-    public boolean isKetertarikanBarang() {
+    public int getKetertarikanBarang() {
         return ketertarikanBarang;
     }
 
-    public void setKetertarikanBarang(boolean ketertarikanBarang) {
+    public void setKetertarikanBarang(int ketertarikanBarang) {
         this.ketertarikanBarang = ketertarikanBarang;
     }
 
-    public boolean isHargaMenurutKonsumen() {
+    public int getHargaMenurutKonsumen() {
         return hargaMenurutKonsumen;
     }
 
-    public void setHargaMenurutKonsumen(boolean hargaMenurutKonsumen) {
+    public void setHargaMenurutKonsumen(int hargaMenurutKonsumen) {
         this.hargaMenurutKonsumen = hargaMenurutKonsumen;
     }
 
-    public boolean isPrediksiPembelian() {
+    public int getPrediksiPembelian() {
         return prediksiPembelian;
     }
 
-    public void setPrediksiPembelian(boolean prediksiPembelian) {
+    public void setPrediksiPembelian(int prediksiPembelian) {
         this.prediksiPembelian = prediksiPembelian;
     }
+
+    public int getRealitaPembelian() {
+        return realitaPembelian;
+    }
+
+    public void setRealitaPembelian(int realitaPembelian) {
+        this.realitaPembelian = realitaPembelian;
+    }
+
+    public Konsumen(String konsumenId, int jenisKelamin, int umurKonsumen, int pekerjaanKonsumen, int pendidikanKonsumen, int pengetahuanTentangBarang, int ketertarikanBarang, int hargaMenurutKonsumen, int prediksiPembelian, int realitaPembelian) {
+        this.konsumenId = konsumenId;
+        this.jenisKelamin = jenisKelamin;
+        this.umurKonsumen = umurKonsumen;
+        this.pekerjaanKonsumen = pekerjaanKonsumen;
+        this.pendidikanKonsumen = pendidikanKonsumen;
+        this.pengetahuanTentangBarang = pengetahuanTentangBarang;
+        this.ketertarikanBarang = ketertarikanBarang;
+        this.hargaMenurutKonsumen = hargaMenurutKonsumen;
+        this.prediksiPembelian = prediksiPembelian;
+        this.realitaPembelian = realitaPembelian;
+
+    }
+
 }
