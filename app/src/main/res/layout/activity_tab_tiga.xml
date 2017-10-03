@@ -4,7 +4,15 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context="id.eightstudio.www.pemasaranondeonde.Fragment.TabTiga">
+
+    <Button
+        android:id="@+id/hitungTrueFalse"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Hitung"
+        />
 
     <com.github.mikephil.charting.charts.PieChart
         android:layout_margin="30dp"

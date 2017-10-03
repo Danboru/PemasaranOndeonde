@@ -10,7 +10,7 @@ public class Konsumen {
 
     private String konsumenName;
 
-    // 1 = laki - laki, 2 = Perempuan
+    // 1 = Laki - Laki, 2 = Perempuan
     private int jenisKelamin;
 
     // 1 = 10 - 29, 2 = 30 - 49, 3 = >=50
@@ -22,7 +22,7 @@ public class Konsumen {
     // 1 = SD, 2 = SLTP, 3 = SLTA, 4 = Diploma, 5 = Sarjana, 5 = Lain - lain
     private int pendidikanKonsumen;
 
-    // 1 = True, 2= False
+    // 1 = True, 2 = False
     int pengetahuanTentangBarang, ketertarikanBarang, hargaMenurutKonsumen, prediksiPembelian, realitaPembelian;
 
     public Konsumen() {
