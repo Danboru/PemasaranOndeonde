@@ -109,7 +109,7 @@ public class AdapterRecyclerViewAllData extends RecyclerView.Adapter<AdapterRecy
             }
         });
 
-        //Save (BUG)
+        //Save (FIX)
         Button save = dialog.findViewById(R.id.saveData);
         save.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -117,7 +117,7 @@ public class AdapterRecyclerViewAllData extends RecyclerView.Adapter<AdapterRecy
 
                 Konsumen konsumen = dataList.get(posisi);
                 OpenHelper database = new OpenHelper(context);
-                database.updateUser(new Konsumen(1), dataList.get(posisi));
+                database.updateUser(new Konsumen(1), konsumen.getIdUser());
                 database.close();
 
                 dialog.dismiss();

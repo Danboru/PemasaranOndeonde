@@ -149,13 +149,13 @@ public class OpenHelper extends SQLiteOpenHelper  {
     }
 
     //FIX
-    public int updateUser(Konsumen kosumen, Konsumen position) {
+    public int updateUser(Konsumen kosumen, int position) {
         SQLiteDatabase db = this.getWritableDatabase();
 
         ContentValues values = new ContentValues();
         values.put(KEY_COSTUMER_REALITAPEMBELIAN, kosumen.getRealitaPembelian());
 
-        // updating row
+        // updating
         return db.update(TABLE_USER, values, KEY_COSTUMER_ID + " = ?",
                 new String[] { String.valueOf(position) });
     }
