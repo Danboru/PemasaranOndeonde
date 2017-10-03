@@ -2,24 +2,28 @@
     <string name="app_name">Pemasaran Ondeonde</string>
 
     <array name="jenis_kelamin">
+        <item>Jenis Kelamin</item>
         <item>Laki-Laki</item>
         <item>Perempuan</item>
     </array>
 
     <array name="umur_konsumen">
+        <item>Umur</item>
         <item>10 - 29</item>
         <item>30 - 49</item>
         <item>>=50</item>
     </array>
 
     <array name="pekerjaan_konsumen">
+        <item>Pekerjaan</item>
         <item>Pelajar/Mahasiswa</item>
-        <item>PNS</item>
-        <item>Swasta</item>
+        <item>Pegawai Negeri</item>
+        <item>Pegawai Swasta</item>
         <item>Lain - Lain</item>
     </array>
 
     <array name="pendidikan_konsumen">
+        <item>Pendidikan</item>
         <item>SD</item>
         <item>SLTP</item>
         <item>SLTA</item>
@@ -29,16 +33,19 @@
     </array>
 
     <array name="pengetahuan_barang">
+        <item>Pengetahuan Barang</item>
         <item>Tahu</item>
         <item>Tidak Tahu</item>
     </array>
 
     <array name="ketertarikan_barang">
+        <item>Ketertarikan Barang</item>
         <item>Tertarik</item>
         <item>Tidak Tertarik</item>
     </array>
 
     <array name="harga_barang">
+        <item>Harga Barang</item>
         <item>Sesuai</item>
         <item>Tidak Sesuai</item>
     </array>

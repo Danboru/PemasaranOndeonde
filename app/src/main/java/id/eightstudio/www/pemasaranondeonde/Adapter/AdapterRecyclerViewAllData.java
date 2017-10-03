@@ -2,6 +2,7 @@ package id.eightstudio.www.pemasaranondeonde.Adapter;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
 import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
@@ -44,8 +45,15 @@ public class AdapterRecyclerViewAllData extends RecyclerView.Adapter<AdapterRecy
     @Override
     public void onBindViewHolder(final ViewHolder holder, final int position) {
         holder.namaUser.setText(dataList.get(position).getKonsumenName().toString());
-        holder.jenisKelamin.setText(String.valueOf(dataList.get(position).getJenisKelamin()));
-        holder.prediksiPembelian.setText(String.valueOf(dataList.get(position).getPrediksiPembelian()));
+
+        //Set Jenis Kelamin
+        setJenisKelamin(dataList.get(position).getJenisKelamin(), position, holder);
+
+        //Set Prediksi Pembelian
+        setPrediksiPembelian(dataList.get(position).getPrediksiPembelian(), position, holder);
+
+        //Set Verifikasi Pembelian
+        setVerifikasiPembelian(dataList.get(position).getRealitaPembelian(), position, holder);
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -57,6 +65,36 @@ public class AdapterRecyclerViewAllData extends RecyclerView.Adapter<AdapterRecy
         });
     }
 
+
+    public void setJenisKelamin(int jenisKelamin, int position, ViewHolder holder){
+        if (jenisKelamin == 1) {
+            holder.jenisKelamin.setText("Laki - Laki");
+        } else {
+            holder.jenisKelamin.setText("Perempuan");
+        }
+    }
+
+    public void setPrediksiPembelian(int pembelian, int position, ViewHolder holder){
+        if (pembelian == 1) {
+            holder.prediksiPembelian.setText("Hasil Prediksi : Membeli");
+        } else {
+            holder.prediksiPembelian.setText("Hasil Prediksi : Tidak Membeli");
+        }
+    }
+
+    public void setVerifikasiPembelian(int verifikasi, int position, ViewHolder holder){
+        if (verifikasi == 1) {
+            holder.verifikasiPembelian.setText("Sudah Membeli");
+            holder.verifikasiPembelian.setTextColor(Color.BLACK);
+        } else if (verifikasi == 2) {
+            holder.verifikasiPembelian.setText("Tidak Membeli");
+            holder.verifikasiPembelian.setTextColor(Color.RED);
+        } else {
+            holder.verifikasiPembelian.setText("Belum Di Verifikasi");
+            holder.verifikasiPembelian.setTextColor(Color.BLUE);
+        }
+    }
+
     //1
     @Override
     public int getItemCount() {
@@ -65,13 +103,14 @@ public class AdapterRecyclerViewAllData extends RecyclerView.Adapter<AdapterRecy
 
     public class ViewHolder extends RecyclerView.ViewHolder {
 
-        TextView namaUser, jenisKelamin, prediksiPembelian;
+        TextView namaUser, jenisKelamin, prediksiPembelian, verifikasiPembelian;
         public ViewHolder(View itemView) {
             super(itemView);
 
             namaUser = itemView.findViewById(R.id.txtNamaUser);
             jenisKelamin = itemView.findViewById(R.id.txtJenisKelamin);
             prediksiPembelian = itemView.findViewById(R.id.txtPrediksiPembelian);
+            verifikasiPembelian = itemView.findViewById(R.id.txtVerifikasiPembelian);
 
         }
 
@@ -88,28 +127,29 @@ public class AdapterRecyclerViewAllData extends RecyclerView.Adapter<AdapterRecy
         dialog.setContentView(R.layout.popup_tester);
 
         //Membuat agar dialog tidak hilang saat di click di area luar dialog
-        dialog.setCanceledOnTouchOutside(false);
+        dialog.setCanceledOnTouchOutside(true);
 
         //Membuat dialog agar berukuran responsive
         DisplayMetrics metrics = context.getResources().getDisplayMetrics();
         int width = metrics.widthPixels;
         dialog.getWindow().setLayout((6 * width) / 7, LinearLayout.LayoutParams.WRAP_CONTENT);
 
-        EditText keputusanBeli = dialog.findViewById(R.id.edt_keputusanBeli);
-        keputusanBeli.setText(String.valueOf(data));
-
-        //Cancel (FIX)
+        //Tidak Beli (FIX)
         Button cancel = dialog.findViewById(R.id.cancelSave);
         cancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
-                Konsumen konsumen = new Konsumen();
+                Konsumen konsumen = dataList.get(posisi);
+                OpenHelper database = new OpenHelper(context);
+                database.updateUser(new Konsumen(2), konsumen.getIdUser());
+                database.close();
+
                 dialog.dismiss();
             }
         });
 
-        //Save (FIX)
+        //Beli (FIX)
         Button save = dialog.findViewById(R.id.saveData);
         save.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -134,7 +174,6 @@ public class AdapterRecyclerViewAllData extends RecyclerView.Adapter<AdapterRecy
                 Konsumen konsumen = dataList.get(posisi);
                 OpenHelper database = new OpenHelper(context);
                 database.deleteKonsumen(konsumen.getIdUser());
-                Toast.makeText(context, "" + konsumen.getIdUser() , Toast.LENGTH_SHORT).show();
                 database.close();
                 dialog.dismiss();
             }

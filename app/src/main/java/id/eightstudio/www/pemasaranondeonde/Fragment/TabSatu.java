@@ -1,5 +1,7 @@
 package id.eightstudio.www.pemasaranondeonde.Fragment;
 
+import android.content.Context;
+import android.graphics.Color;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
@@ -7,14 +9,17 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.SpinnerAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -32,12 +37,13 @@ public class TabSatu extends Fragment {
     private TextView idKonsumen;
     private Spinner jenisKelamin, umurKonsumen, pekerjaanKonsumen, pendidikanKonsumen,
             pengetahuanTentangBarang, ketertarikanBarang, hargaMenurutKonsumen;
-    private ArrayAdapter adapterJenisKelamin, adapterUmurKonsumen, adapterPekerjaanKonsumen, adapterPendidikanKonsumen,
-            adapterPengetahuanTentangBarang, adapterKetertarikanBarang, adapterHargaMenurutKonsumen;
+
     private Button buttonSimpanData;
     private EditText inputNama;
 
     ArrayList<Konsumen> dataKonsumen;
+    CustomSpinnerAdapter jenisKelaminAdapter, umurKonsumenAdapter, pekerjaanKonsumenAdapter, pendidikanKonsumenAdapter,
+            pengetahuanTentangBarangAdapter, ketertarikanBarangAdapter, hargaMenurutKonsumenAdapter;
 
     //Konversi data
     int dataJenisKelamin, dataUmurKonsumen, dataPekerjaanKonsumen, dataPendidikanKonsumen;
@@ -52,7 +58,6 @@ public class TabSatu extends Fragment {
         final OpenHelper database = new OpenHelper(getContext());
 
         bindView(view);
-        adapterInit();
         setAdapter();
 
         dataKonsumen = new ArrayList<>();
@@ -70,46 +75,68 @@ public class TabSatu extends Fragment {
                 ketertarikanBarang(ketertarikanBarang.getSelectedItem().toString());
                 hargaBarang(hargaMenurutKonsumen.getSelectedItem().toString());
 
-                dataKonsumen.add(new Konsumen(inputNama.getText().toString() , dataJenisKelamin, dataUmurKonsumen, dataPekerjaanKonsumen,
-                        dataPendidikanKonsumen, dataPengetahuanTentangBarang, dataKetertarikanBarang, dataHargaMenurutKonsumen,
-
-                        PrediksiPembelian.prediksiPembelian(dataJenisKelamin, dataUmurKonsumen,
-                                                            dataPekerjaanKonsumen, dataPendidikanKonsumen,
-                                                            dataPengetahuanTentangBarang, dataKetertarikanBarang,
-                                                            dataHargaMenurutKonsumen), 2));
-
                 database.addUser(new Konsumen(inputNama.getText().toString() , dataJenisKelamin, dataUmurKonsumen, dataPekerjaanKonsumen,
                         dataPendidikanKonsumen, dataPengetahuanTentangBarang, dataKetertarikanBarang, dataHargaMenurutKonsumen,
 
                         PrediksiPembelian.prediksiPembelian(dataJenisKelamin, dataUmurKonsumen,
                                 dataPekerjaanKonsumen, dataPendidikanKonsumen,
                                 dataPengetahuanTentangBarang, dataKetertarikanBarang,
-                                dataHargaMenurutKonsumen), 2));
+                                dataHargaMenurutKonsumen), 3));
 
+                //Reset EditText
+                inputNama.setText("");
             }
         });
         
         return view;
     }
 
-    public void adapterInit(){
+    public class CustomSpinnerAdapter extends BaseAdapter implements SpinnerAdapter {
 
-        adapterJenisKelamin = ArrayAdapter.createFromResource(getContext(),R.array.jenis_kelamin, android.R.layout.simple_spinner_item);
-        adapterUmurKonsumen = ArrayAdapter.createFromResource(getContext(),R.array.umur_konsumen, android.R.layout.simple_spinner_item);
-        adapterPekerjaanKonsumen = ArrayAdapter.createFromResource(getContext(),R.array.pekerjaan_konsumen, android.R.layout.simple_spinner_item);
-        adapterPendidikanKonsumen = ArrayAdapter.createFromResource(getContext(),R.array.pendidikan_konsumen, android.R.layout.simple_spinner_item);
-        adapterPengetahuanTentangBarang = ArrayAdapter.createFromResource(getContext(),R.array.pengetahuan_barang, android.R.layout.simple_spinner_item);
-        adapterKetertarikanBarang = ArrayAdapter.createFromResource(getContext(),R.array.ketertarikan_barang, android.R.layout.simple_spinner_item);
-        adapterHargaMenurutKonsumen = ArrayAdapter.createFromResource(getContext(),R.array.harga_barang, android.R.layout.simple_spinner_item);
+        private final Context activity;
+        private ArrayList<String> listString;
 
-        adapterJenisKelamin.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        adapterUmurKonsumen.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        adapterPekerjaanKonsumen.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        adapterPendidikanKonsumen.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        adapterPengetahuanTentangBarang.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        adapterKetertarikanBarang.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        adapterHargaMenurutKonsumen.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        public CustomSpinnerAdapter(Context context, ArrayList<String> dataString) {
+            this.listString = dataString;
+            this.activity = context;
+        }
 
+        public int getCount()
+        {
+            return listString.size();
+        }
+
+        public Object getItem(int i)
+        {
+            return listString.get(i);
+        }
+
+        public long getItemId(int i)
+        {
+            return (long)i;
+        }
+
+        @Override
+        public View getDropDownView(int position, View convertView, ViewGroup parent) {
+            TextView txt = new TextView(getContext());
+            txt.setPadding(70, 50, 70, 50);
+            txt.setTextSize(18);
+            txt.setGravity(Gravity.CENTER_VERTICAL);
+            txt.setText((CharSequence) listString.get(position));
+            txt.setTextColor(Color.parseColor("#000000"));
+            return  txt;
+        }
+
+        public View getView(int i, View view, ViewGroup viewgroup) {
+            TextView txt = new TextView(getContext());
+            txt.setGravity(Gravity.CENTER);
+            txt.setPadding(18, 18, 18, 18);
+            txt.setTextSize(18);
+            txt.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_down, 0);
+            txt.setText((CharSequence) listString.get(i));
+            txt.setTextColor(Color.parseColor("#000000"));
+            return  txt;
+        }
     }
 
     /***
@@ -117,13 +144,62 @@ public class TabSatu extends Fragment {
      * */
     private void setAdapter() {
 
-        jenisKelamin.setAdapter(adapterJenisKelamin);
-        umurKonsumen.setAdapter(adapterUmurKonsumen);
-        pekerjaanKonsumen.setAdapter(adapterPekerjaanKonsumen);
-        pendidikanKonsumen.setAdapter(adapterPendidikanKonsumen);
-        pengetahuanTentangBarang.setAdapter(adapterPengetahuanTentangBarang);
-        ketertarikanBarang.setAdapter(adapterKetertarikanBarang);
-        hargaMenurutKonsumen.setAdapter(adapterHargaMenurutKonsumen);
+        ArrayList<String> array_jenisKelamin = new ArrayList<>();
+        ArrayList<String> array_umurKonsumen = new ArrayList<>();
+        ArrayList<String> array_pekerjaanKonsumen = new ArrayList<>();
+        ArrayList<String> array_pendidikanKonsumen = new ArrayList<>();
+        ArrayList<String> array_pengetahuanKonsumen = new ArrayList<>();
+        ArrayList<String> array_ketertarikanKonsumen = new ArrayList<>();
+        ArrayList<String> array_hargaMenurutKonsumen = new ArrayList<>();
+
+        for (String data : getResources().getStringArray(R.array.jenis_kelamin)) {
+            array_jenisKelamin.add(data);
+        }
+
+        for (String data : getResources().getStringArray(R.array.umur_konsumen)) {
+            array_umurKonsumen.add(data);
+        }
+
+        for (String data : getResources().getStringArray(R.array.pekerjaan_konsumen)) {
+            array_pekerjaanKonsumen.add(data);
+        }
+
+        for (String data : getResources().getStringArray(R.array.pendidikan_konsumen)) {
+            array_pendidikanKonsumen.add(data);
+        }
+
+        for (String data : getResources().getStringArray(R.array.pengetahuan_barang)) {
+            array_pengetahuanKonsumen.add(data);
+        }
+
+        for (String data : getResources().getStringArray(R.array.ketertarikan_barang)) {
+            array_ketertarikanKonsumen.add(data);
+        }
+
+        for (String data : getResources().getStringArray(R.array.harga_barang)) {
+            array_hargaMenurutKonsumen.add(data);
+        }
+
+        jenisKelaminAdapter = new CustomSpinnerAdapter(getContext(), array_jenisKelamin);
+        jenisKelamin.setAdapter(jenisKelaminAdapter);
+
+        umurKonsumenAdapter = new CustomSpinnerAdapter(getContext(), array_umurKonsumen);
+        umurKonsumen.setAdapter(umurKonsumenAdapter);
+
+        pekerjaanKonsumenAdapter = new CustomSpinnerAdapter(getContext(), array_pekerjaanKonsumen);
+        pekerjaanKonsumen.setAdapter(pekerjaanKonsumenAdapter);
+
+        pendidikanKonsumenAdapter = new CustomSpinnerAdapter(getContext(), array_pendidikanKonsumen);
+        pendidikanKonsumen.setAdapter(pendidikanKonsumenAdapter);
+
+        pengetahuanTentangBarangAdapter = new CustomSpinnerAdapter(getContext(), array_pengetahuanKonsumen);
+        pengetahuanTentangBarang.setAdapter(pengetahuanTentangBarangAdapter);
+
+        ketertarikanBarangAdapter = new CustomSpinnerAdapter(getContext(), array_ketertarikanKonsumen);
+        ketertarikanBarang.setAdapter(ketertarikanBarangAdapter);
+
+        hargaMenurutKonsumenAdapter = new CustomSpinnerAdapter(getContext(), array_hargaMenurutKonsumen);
+        hargaMenurutKonsumen.setAdapter(hargaMenurutKonsumenAdapter);
 
     }
 
@@ -153,7 +229,7 @@ public class TabSatu extends Fragment {
      * */
     int pilihJenisKelamin(String jenisKelamin){
         //Mengembalikan jenis kelamin
-        if (jenisKelamin.equalsIgnoreCase("laki-laki")) {
+        if (jenisKelamin.equalsIgnoreCase("Laki-Laki")) {
             dataJenisKelamin = 1;
         } else {
             dataJenisKelamin = 2;
@@ -190,10 +266,10 @@ public class TabSatu extends Fragment {
         if (pekerjaan.equalsIgnoreCase("Pelajar/Mahasiswa")) {
             dataPekerjaanKonsumen = 1;
         }
-        else if (pekerjaan.equalsIgnoreCase("PNS")){
+        else if (pekerjaan.equalsIgnoreCase("Pegawai Negeri")){
             dataPekerjaanKonsumen = 2;
         }
-        else if (pekerjaan.equalsIgnoreCase("Swasta")){
+        else if (pekerjaan.equalsIgnoreCase("Pegawai Swasta")){
             dataPekerjaanKonsumen = 3;
         } else {
             dataPekerjaanKonsumen = 4;
