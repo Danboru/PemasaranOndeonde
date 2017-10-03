@@ -6,7 +6,9 @@ package id.eightstudio.www.pemasaranondeonde.Provider;
 
 public class Konsumen {
 
-    private String konsumenId;
+    private int idUser;
+
+    private String konsumenName;
 
     //1 = laki - laki, 2 = Perempuan
     private int jenisKelamin;
@@ -26,12 +28,37 @@ public class Konsumen {
     public Konsumen() {
     }
 
-    public String getKonsumenId() {
-        return konsumenId;
+    public Konsumen(int realitaPembelian) {
+        this.realitaPembelian = realitaPembelian;
     }
 
-    public void setKonsumenId(String konsumenId) {
-        this.konsumenId = konsumenId;
+    public Konsumen(String konsumenName, int jenisKelamin, int umurKonsumen, int pekerjaanKonsumen, int pendidikanKonsumen, int pengetahuanTentangBarang, int ketertarikanBarang, int hargaMenurutKonsumen, int prediksiPembelian, int realitaPembelian) {
+        this.konsumenName = konsumenName;
+        this.jenisKelamin = jenisKelamin;
+        this.umurKonsumen = umurKonsumen;
+        this.pekerjaanKonsumen = pekerjaanKonsumen;
+        this.pendidikanKonsumen = pendidikanKonsumen;
+        this.pengetahuanTentangBarang = pengetahuanTentangBarang;
+        this.ketertarikanBarang = ketertarikanBarang;
+        this.hargaMenurutKonsumen = hargaMenurutKonsumen;
+        this.prediksiPembelian = prediksiPembelian;
+        this.realitaPembelian = realitaPembelian;
+    }
+
+    public int getIdUser() {
+        return idUser;
+    }
+
+    public void setIdUser(int idUser) {
+        this.idUser = idUser;
+    }
+
+    public String getKonsumenName() {
+        return konsumenName;
+    }
+
+    public void setKonsumenName(String konsumenName) {
+        this.konsumenName = konsumenName;
     }
 
     public int getJenisKelamin() {
@@ -105,19 +132,4 @@ public class Konsumen {
     public void setRealitaPembelian(int realitaPembelian) {
         this.realitaPembelian = realitaPembelian;
     }
-
-    public Konsumen(String konsumenId, int jenisKelamin, int umurKonsumen, int pekerjaanKonsumen, int pendidikanKonsumen, int pengetahuanTentangBarang, int ketertarikanBarang, int hargaMenurutKonsumen, int prediksiPembelian, int realitaPembelian) {
-        this.konsumenId = konsumenId;
-        this.jenisKelamin = jenisKelamin;
-        this.umurKonsumen = umurKonsumen;
-        this.pekerjaanKonsumen = pekerjaanKonsumen;
-        this.pendidikanKonsumen = pendidikanKonsumen;
-        this.pengetahuanTentangBarang = pengetahuanTentangBarang;
-        this.ketertarikanBarang = ketertarikanBarang;
-        this.hargaMenurutKonsumen = hargaMenurutKonsumen;
-        this.prediksiPembelian = prediksiPembelian;
-        this.realitaPembelian = realitaPembelian;
-
-    }
-
 }

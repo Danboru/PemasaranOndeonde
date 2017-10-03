@@ -20,8 +20,10 @@ public class MainActivity extends AppCompatActivity {
 
         tabLayout = (TabLayout) findViewById(R.id.tabLayoutMain);
         tabLayout.setTabTextColors(ColorStateList.valueOf(getResources().getColor(R.color.colorWhite)));
-
         viewPager = (ViewPager) findViewById(R.id.viewPagerMain);
+
+        int page = 1;
+        viewPager.setCurrentItem(page);
 
         TabAdapter adapter = new TabAdapter(getSupportFragmentManager());
         viewPager.setAdapter(adapter);

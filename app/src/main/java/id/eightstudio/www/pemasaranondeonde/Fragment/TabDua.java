@@ -15,6 +15,7 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Random;
 
 import id.eightstudio.www.pemasaranondeonde.Adapter.AdapterRecyclerViewAllData;
@@ -34,7 +35,7 @@ public class TabDua extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = LayoutInflater.from(container.getContext()).inflate(R.layout.activity_tab_dua, container, false);
+        final View view = LayoutInflater.from(container.getContext()).inflate(R.layout.activity_tab_dua, container, false);
 
         viewAllData = view.findViewById(R.id.recyclerViewViewAllData);
         swipeRefreshLayout = view.findViewById(R.id.swipeRefreshMain);
@@ -50,9 +51,10 @@ public class TabDua extends Fragment {
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                adapter.notifyDataSetChanged();
                 dataListKonsumen.clear();
                 dataListKonsumen.addAll(database.getAllKonsumen());
+                adapter.notifyItemInserted(0);
+                adapter.notifyDataSetChanged();
                 onItemsLoadComplete();
             }
         });

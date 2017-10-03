@@ -57,7 +57,6 @@ public class OpenHelper extends SQLiteOpenHelper  {
                 + KEY_COSTUMER_REALITAPEMBELIAN + " TEXT" + ")";
 
         sqLiteDatabase.execSQL(CREATE_COSTUMER_TABLE);
-
     }
 
     //FIX
@@ -73,7 +72,7 @@ public class OpenHelper extends SQLiteOpenHelper  {
         SQLiteDatabase db = this.getWritableDatabase();
 
         ContentValues values = new ContentValues();
-        values.put(KEY_COSTUMER_NAME, konsumen.getKonsumenId());
+        values.put(KEY_COSTUMER_NAME, konsumen.getKonsumenName());
         values.put(KEY_COSTUMER_JENISKELAMIN, konsumen.getJenisKelamin());
         values.put(KEY_COSTUMER_UMUR, konsumen.getUmurKonsumen());
         values.put(KEY_COSTUMER_PEKERJAAN, konsumen.getPekerjaanKonsumen());
@@ -103,10 +102,10 @@ public class OpenHelper extends SQLiteOpenHelper  {
         if (cursor != null)
             cursor.moveToFirst();
 
-        Konsumen konsumenData = new Konsumen(cursor.getString(0), Integer.parseInt(cursor.getString(1)), Integer.parseInt(cursor.getString(2)),
+        Konsumen konsumenData = new Konsumen(cursor.getString(1), Integer.parseInt(cursor.getString(2)),
                 Integer.parseInt(cursor.getString(3)), Integer.parseInt(cursor.getString(4)), Integer.parseInt(cursor.getString(5)),
                 Integer.parseInt(cursor.getString(6)), Integer.parseInt(cursor.getString(7)), Integer.parseInt(cursor.getString(8)),
-                Integer.parseInt(cursor.getString(9))
+                Integer.parseInt(cursor.getString(9)), Integer.parseInt(cursor.getString(10))
                 );
 
         //Return user
@@ -127,7 +126,8 @@ public class OpenHelper extends SQLiteOpenHelper  {
         if (cursor.moveToFirst()) {
             do {
                 Konsumen user = new Konsumen();
-                user.setKonsumenId(cursor.getString(1));
+                user.setIdUser(Integer.parseInt(cursor.getString(0)));
+                user.setKonsumenName(cursor.getString(1));
                 user.setJenisKelamin(Integer.parseInt(cursor.getString(2)));
                 user.setUmurKonsumen(Integer.parseInt(cursor.getString(3)));
                 user.setPekerjaanKonsumen(Integer.parseInt(cursor.getString(4)));
@@ -147,6 +147,27 @@ public class OpenHelper extends SQLiteOpenHelper  {
         // return konsumenList
         return konsumenList;
     }
+
+    //FIX
+    public int updateUser(Konsumen kosumen, int position) {
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        ContentValues values = new ContentValues();
+        values.put(KEY_COSTUMER_REALITAPEMBELIAN, kosumen.getRealitaPembelian());
+
+        // updating row
+        return db.update(TABLE_USER, values, KEY_COSTUMER_ID + " = ?",
+                new String[] { String.valueOf(position) });
+    }
+
+    //BUG
+    public void deleteKonsumen(int id) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.delete(TABLE_USER, KEY_COSTUMER_ID + " = ?",
+                new String[] { String.valueOf(id) });
+        db.close();
+    }
+
 
     //FIX
     public int getKonsumenCount() {

@@ -70,8 +70,6 @@ public class TabSatu extends Fragment {
                 ketertarikanBarang(ketertarikanBarang.getSelectedItem().toString());
                 hargaBarang(hargaMenurutKonsumen.getSelectedItem().toString());
 
-
-
                 dataKonsumen.add(new Konsumen(inputNama.getText().toString() , dataJenisKelamin, dataUmurKonsumen, dataPekerjaanKonsumen,
                         dataPendidikanKonsumen, dataPengetahuanTentangBarang, dataKetertarikanBarang, dataHargaMenurutKonsumen,
 
