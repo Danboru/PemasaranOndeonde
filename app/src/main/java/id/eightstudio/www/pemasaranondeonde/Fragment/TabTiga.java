@@ -1,44 +1,49 @@
 package id.eightstudio.www.pemasaranondeonde.Fragment;
 
+import android.database.sqlite.SQLiteDatabase;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
+import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.Toast;
 
-import com.github.mikephil.charting.charts.PieChart;
-import com.github.mikephil.charting.data.DataSet;
-import com.github.mikephil.charting.data.Entry;
-import com.github.mikephil.charting.data.PieData;
-import com.github.mikephil.charting.data.PieDataSet;
-import com.github.mikephil.charting.data.PieEntry;
-import com.github.mikephil.charting.utils.ColorTemplate;
-
-import java.util.ArrayList;
-import java.util.List;
-
 import id.eightstudio.www.pemasaranondeonde.Database.OpenHelper;
+import id.eightstudio.www.pemasaranondeonde.Provider.Statistik;
 import id.eightstudio.www.pemasaranondeonde.R;
 
 public class TabTiga extends Fragment {
     private static final String TAG = "TabTiga";
 
-    float rainFall[] = {54.8f, 45.8f, 20.8f, 80.8f, 98.8f, 38.8f, 95.8f, 12.8f,38.8f, 56.8f, 76.8f, 98.8f};
-    String bulanSetahun[] = {"Jan", "Feb", "Mar", "Apr", "Mei", "Jun", "Jul", "Augs", "Sept", "Okt", "Nov", "Des"};
+    BottomNavigationView bottomNavigationView;
+    FrameLayout frameLayout;
+
+    double dataTemp = 0.0;
 
     Button hitungTrueFalseData;
     int TT, TF, FT, FF;
 
+    int tidakBeli, intBeli;
+
     @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, @Nullable final ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = LayoutInflater.from(container.getContext()).inflate(R.layout.activity_tab_tiga, container, false);
 
         hitungTrueFalseData = view.findViewById(R.id.hitungTrueFalse);
+        bottomNavigationView = view.findViewById(R.id.bottomNavViewMain);
+        frameLayout = view.findViewById(R.id.frameLayoutMain);
+
+        bottomNavigationView.setVisibility(View.VISIBLE);
+        frameLayout.setVisibility(View.VISIBLE);
 
         hitungTrueFalseData.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -46,6 +51,7 @@ public class TabTiga extends Fragment {
 
                 int belumVerifikasi = 0;
                 OpenHelper database = new OpenHelper(getContext());
+                SQLiteDatabase dataMain = database.getReadableDatabase();
 
                 if (database.getAllKonsumen().size() > 0) {
                     for (int i = 0; i < database.getAllKonsumen().size(); i++) {
@@ -54,58 +60,107 @@ public class TabTiga extends Fragment {
                             break;
                         }
                     }
-                } else {
-                    Toast.makeText(getContext(), "Tidak Ada Data", Toast.LENGTH_SHORT).show();
                 }
                 
                 //Memverifikasi semua data
-                if (belumVerifikasi > 0){
-                    Toast.makeText(getContext(), "Verifikasi Semua Data Dude", Toast.LENGTH_SHORT).show();
+                if ( (belumVerifikasi > 0) ){
+                    Toast.makeText(getContext(), "Verifikasi Semua Data", Toast.LENGTH_SHORT).show();
                 } else {
 
-                    for (int i = 0; i < database.getAllKonsumen().size(); i++) {
+                    if ((TT + TF + FT + FF) == database.getAllKonsumen().size() ) {
+                        Log.d(TAG, "onClick: " + "Mencapai nilai Max");
+                    } else {
 
-                        if ( (database.getAllKonsumen().get(i).getPrediksiPembelian() == 1)
-                                && (database.getAllKonsumen().get(i).getRealitaPembelian() == 1) ) {
-                            TT += 1;
-                        }
-                        else if ( (database.getAllKonsumen().get(i).getPrediksiPembelian() == 1)
-                                && (database.getAllKonsumen().get(i).getRealitaPembelian() == 2) ) {
-                            TF += 1;
-                        }
-                        else if ((database.getAllKonsumen().get(i).getPrediksiPembelian() == 2)
-                                && (database.getAllKonsumen().get(i).getRealitaPembelian() == 1)) {
-                            FT += 1;
-                        } else {
-                            FF += 1;
+                        for (int i = 0; i < database.getAllKonsumen().size(); i++) {
+
+                            Log.d(TAG, "Data : " + i);
+                            Log.d(TAG, "Perdiksi = : " + database.getAllKonsumen().get(i).getPrediksiPembelian());
+                            Log.d(TAG, "Realita = : " + database.getAllKonsumen().get(i).getRealitaPembelian());
+                            Log.d(TAG, "\n");
+
+                            int prediksi = database.getAllKonsumen().get(i).getPrediksiPembelian();
+                            int realita = database.getAllKonsumen().get(i).getRealitaPembelian();
+
+                            if (prediksi == 1 && realita == 1) {
+                                TT += 1;
+                            } else if (prediksi == 1 && realita == 2) {
+                                TF += 1;
+                            } else if (prediksi == 2 && realita == 1) {
+                                FT += 1;
+                            } else {
+                                FF += 1;
+                            }
+
+
                         }
                     }
                 }
 
+                //FIX
                 Log.d(TAG, "TT = " + TT ); //0
                 Log.d(TAG, "TF = " + TF); //0
-                Log.d(TAG, "FT = " + FT ); //3
-                Log.d(TAG, "FF = " + FF ); //1
+                Log.d(TAG, "FT = " + FT ); //0
+                Log.d(TAG, "FF = " + FF ); //0
 
+                double pembilang = TT + FF;
+                Log.d(TAG, "Pembilang: " + pembilang);
+
+                double penyebut = TT + TF + FT + FF;
+                Log.d(TAG, "Penyebut: " + penyebut);
+
+                dataTemp = pembilang/penyebut;
+                Log.d(TAG, "Persentase = " + dataTemp * 100);
+
+                //TODO Ada Bug Di sini = Jumlah Pembeli kadang bener kadang salah
+                intBeli = 0; tidakBeli = 0;
+                for (int i = 0; i < database.getAllKonsumen().size(); i++) {
+
+                    if (database.getAllKonsumen().get(i).getRealitaPembelian() == 1){
+                        intBeli += 1;
+                    } else {
+                        tidakBeli += 1;
+                    }
+                }
+
+                database.deleteAllStatistik(dataMain);
+                database.addDataStatistik(new Statistik(String.valueOf(intBeli), String.valueOf(tidakBeli), String.valueOf(dataTemp * 100)));
+
+//                for (int i = 0; i < database.getAllStatistik().size(); i++) {
+//                    Log.d(TAG, "Jumlah Pembeli = : " + database.getAllStatistik().get(i).getJumlahPembeli());
+//                }
+
+                database.close();
             }
         });
 
-        List<PieEntry> pieEntries = new ArrayList<>();
+        //
+        bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
 
-        for (int i = 0; i < rainFall.length; i++) {
-            pieEntries.add(new PieEntry(rainFall[i], bulanSetahun[i]));
-        }
+                Fragment fragmentSelected = null;
+                switch (item.getItemId()) {
 
-        PieDataSet dataSet = new PieDataSet(pieEntries, "");
-        dataSet.setColors(ColorTemplate.COLORFUL_COLORS);
-        PieData data = new PieData(dataSet);
+                    case R.id.itemSatu: {
+                        fragmentSelected = ContentSatu.newInstance();
+                        break;
+                    }
+                    case R.id.itemDua: {
+                        fragmentSelected = ContentDua.newInstance();
+                        break;
+                    }
+                }
 
-        //Get the chart
-        PieChart pieChart = view.findViewById(R.id.chartPractice);
-        pieChart.setData(data);
-        pieChart.animateY(1000);
-        pieChart.invalidate();
+                FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
+                transaction.replace(R.id.frameLayoutMain, fragmentSelected);
+                transaction.commit();
+                return true;
+            }
+        });
 
+        FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
+        transaction.replace(R.id.frameLayoutMain, ContentSatu.newInstance());
+        transaction.commit();
 
         return view;
     }

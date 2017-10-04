@@ -83,6 +83,8 @@ public class TabSatu extends Fragment {
                                 dataPengetahuanTentangBarang, dataKetertarikanBarang,
                                 dataHargaMenurutKonsumen), 3));
 
+                database.close();
+
                 //Reset EditText
                 inputNama.setText("");
             }
@@ -261,7 +263,13 @@ public class TabSatu extends Fragment {
         return dataUmurKonsumen;
     }
 
-    // 1 = Pelajar/Mahasiswa, 2 = PNS, 3 = Swasta, 4 = Lain - Lain
+    /***
+     * @param pekerjaan
+     * @return 1 = Pelajar/Mahasiswa
+     * @return 2 = PNS
+     * @return 3 = Swasta
+     * @return 4 = Lain - Lain
+     * */
     int pilihpekerjaanKonsumen(String pekerjaan){
         if (pekerjaan.equalsIgnoreCase("Pelajar/Mahasiswa")) {
             dataPekerjaanKonsumen = 1;
@@ -277,7 +285,15 @@ public class TabSatu extends Fragment {
         return dataPekerjaanKonsumen;
     }
 
-    // 1 = SD, 2 = SLTP, 3 = SLTA, 4 = Diploma, 5 = Sarjana, 6 = Lain - lain
+    /***
+     * @param pendidikan
+     * @return 1 = SD
+     * @return 2 = SLTP
+     * @return 3 = SLTA
+     * @return 4 = Diploma
+     * @return 5 = Sarjana
+     * @return 6 = Lain - lain
+     * */
     int pilihPendidikan(String pendidikan){
         if (pendidikan.equalsIgnoreCase("SD")){
             dataPendidikanKonsumen = 1;
@@ -300,7 +316,11 @@ public class TabSatu extends Fragment {
         return dataPendidikanKonsumen;
     }
 
-    //True - False
+    /***
+     * @param pengetahuanBarang
+     * @return 1 = True
+     * @return 2 = False
+     * */
     int pengetahuanBarang(String pengetahuanBarang) {
         if (pengetahuanBarang.equalsIgnoreCase("Tahu")){
             dataPengetahuanTentangBarang = 1;
@@ -310,7 +330,11 @@ public class TabSatu extends Fragment {
         return dataPengetahuanTentangBarang;
     }
 
-    //True - False
+    /***
+     * @param ketertarikanBarang
+     * @return 1 = True
+     * @return 2 = False
+     * */
     int ketertarikanBarang(String ketertarikanBarang){
         if (ketertarikanBarang.equalsIgnoreCase("Tertarik")){
             dataKetertarikanBarang = 1;
@@ -320,7 +344,11 @@ public class TabSatu extends Fragment {
         return dataKetertarikanBarang;
     }
 
-    //True - False
+    /***
+     * @param hargabarang
+     * @return 1 = True
+     * @return 2 = False
+     * */
     int hargaBarang(String hargabarang){
         if (hargabarang.equalsIgnoreCase("Sesuai")){
             dataHargaMenurutKonsumen = 1;
@@ -329,6 +357,4 @@ public class TabSatu extends Fragment {
         }
         return dataHargaMenurutKonsumen;
     }
-
-
 }

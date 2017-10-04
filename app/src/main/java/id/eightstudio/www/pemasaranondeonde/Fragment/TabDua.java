@@ -64,6 +64,7 @@ public class TabDua extends Fragment {
                 adapter.notifyItemInserted(0);
                 adapter.notifyDataSetChanged();
                 onItemsLoadComplete(view.getContext(), database);
+                database.close();
             }
         });
 
@@ -74,8 +75,10 @@ public class TabDua extends Fragment {
 
         if (database.getAllKonsumen().size() <= 0) {
             Toast.makeText(context, "Tidak Ada Data", Toast.LENGTH_SHORT).show();
+            database.close();
         } else {
-            Toast.makeText(context, "Up Todate", Toast.LENGTH_SHORT).show();   
+            Toast.makeText(context, "Up to Date", Toast.LENGTH_SHORT).show();
+            database.close();
         }
         
         swipeRefreshLayout.setRefreshing(false);

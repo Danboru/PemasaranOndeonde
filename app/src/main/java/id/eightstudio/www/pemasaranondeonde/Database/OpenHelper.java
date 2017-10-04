@@ -11,6 +11,7 @@ import android.util.Log;
 import java.util.ArrayList;
 
 import id.eightstudio.www.pemasaranondeonde.Provider.Konsumen;
+import id.eightstudio.www.pemasaranondeonde.Provider.Statistik;
 
 /**
  * Created by danbo on 10/3/17.
@@ -26,8 +27,9 @@ public class OpenHelper extends SQLiteOpenHelper  {
     private static final String DATABASE_NAME = "penjualan";
     // User Taable Name
     private static final String TABLE_USER = "konsumen";
+    private static final String TABLE_STATISTIK = "statistik";
 
-    //Kolom Table user
+    //Kolom Table konsumen
     private static final String KEY_COSTUMER_ID = "id_user";
     private static final String KEY_COSTUMER_NAME = "nama_user";
     private static final String KEY_COSTUMER_JENISKELAMIN = "kategori_jeniskelamin_user";
@@ -39,6 +41,12 @@ public class OpenHelper extends SQLiteOpenHelper  {
     private static final String KEY_COSTUMER_HARGABARANG = "kategori_hargabarang_user";
     private static final String KEY_COSTUMER_PREDIKSIPEMBELIAN = "prediksipembelian_user";
     private static final String KEY_COSTUMER_REALITAPEMBELIAN = "realitapembelian_user";
+
+    //Kolom Table statistik
+    private static final String KEY_STATISTIK_ID = "id_statistik";
+    private static final String KEY_STATISTIK_JUMLAHPEMBELI = "jumlah_pembeli";
+    private static final String KEY_STATISTIK_JUMLAHTIDAKBELI = "jumlah_tidakbeli";
+    private static final String KEY_STATISTIK__HASIL_PERSENTASE = "persentase";
 
     public OpenHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -56,13 +64,20 @@ public class OpenHelper extends SQLiteOpenHelper  {
                 + KEY_COSTUMER_HARGABARANG + " TEXT, " + KEY_COSTUMER_PREDIKSIPEMBELIAN + " TEXT, "
                 + KEY_COSTUMER_REALITAPEMBELIAN + " TEXT" + ")";
 
+        String CREATE_STATISTIK_TABLE = "CREATE TABLE " + TABLE_STATISTIK + "("
+                + KEY_STATISTIK_ID + " INTEGER PRIMARY KEY, " + KEY_STATISTIK_JUMLAHPEMBELI + " TEXT, "
+                + KEY_STATISTIK_JUMLAHTIDAKBELI + " TEXT, " + KEY_STATISTIK__HASIL_PERSENTASE + " TEXT" + ")";
+
         sqLiteDatabase.execSQL(CREATE_COSTUMER_TABLE);
+        sqLiteDatabase.execSQL(CREATE_STATISTIK_TABLE);
     }
 
     //FIX
     @Override
     public void onUpgrade(SQLiteDatabase sqLiteDatabase, int i, int i1) {
+
         sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + TABLE_USER);
+        sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + TABLE_STATISTIK);
         // Create tables again
         onCreate(sqLiteDatabase);
     }
@@ -89,27 +104,35 @@ public class OpenHelper extends SQLiteOpenHelper  {
     }
 
     //FIX
-    public Konsumen getSingleKonsumen(int id) {
+    public void addDataStatistik(Statistik statistik) {
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        ContentValues data = new ContentValues();
+        data.put(KEY_STATISTIK_JUMLAHPEMBELI, statistik.getJumlahPembeli());
+        data.put(KEY_STATISTIK_JUMLAHTIDAKBELI, statistik.getJumlahTidakBeli());
+        data.put(KEY_STATISTIK__HASIL_PERSENTASE, statistik.getPersentase());
+
+        // Inserting Row
+        db.insert(TABLE_STATISTIK, null, data);
+        db.close(); // Closing database connection
+    }
+
+
+    //FIX
+    public Statistik getDataStatistik(int id) {
         SQLiteDatabase db = this.getReadableDatabase();
 
-        Cursor cursor = db.query(TABLE_USER, new String[] { KEY_COSTUMER_NAME,
-                        KEY_COSTUMER_JENISKELAMIN, KEY_COSTUMER_UMUR,
-                        KEY_COSTUMER_PEKERJAAN,KEY_COSTUMER_PENDIDIKAN, KEY_COSTUMER_PENGETAHUAN,
-                        KEY_COSTUMER_KETERTARIKAN, KEY_COSTUMER_HARGABARANG, KEY_COSTUMER_PREDIKSIPEMBELIAN,
-                        KEY_COSTUMER_REALITAPEMBELIAN
-                }, KEY_COSTUMER_NAME + " = ?",
-                new String[] { "Input EditText" }, null, null, null, null);
+        Cursor cursor = db.query(TABLE_STATISTIK, new String[] { KEY_STATISTIK_JUMLAHPEMBELI,
+                        KEY_STATISTIK_JUMLAHTIDAKBELI, KEY_STATISTIK__HASIL_PERSENTASE
+                }, KEY_STATISTIK_ID + " = ?",
+                new String[] { String.valueOf(id) }, null, null, null, null);
         if (cursor != null)
             cursor.moveToFirst();
 
-        Konsumen konsumenData = new Konsumen(cursor.getString(1), Integer.parseInt(cursor.getString(2)),
-                Integer.parseInt(cursor.getString(3)), Integer.parseInt(cursor.getString(4)), Integer.parseInt(cursor.getString(5)),
-                Integer.parseInt(cursor.getString(6)), Integer.parseInt(cursor.getString(7)), Integer.parseInt(cursor.getString(8)),
-                Integer.parseInt(cursor.getString(9)), Integer.parseInt(cursor.getString(10))
-                );
+        Statistik statistikData = new Statistik(Integer.parseInt(cursor.getString(0)), cursor.getString(1), cursor.getString(2),cursor.getString(3));
 
         //Return user
-        return konsumenData;
+        return statistikData;
     }
 
     //FIX
@@ -149,6 +172,40 @@ public class OpenHelper extends SQLiteOpenHelper  {
     }
 
     //FIX
+    public ArrayList<Statistik> getAllStatistik() {
+        ArrayList<Statistik> statistikList = new ArrayList<Statistik>();
+
+        // Select All Query
+        String selectQuery = "SELECT * FROM " + TABLE_STATISTIK;
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery(selectQuery, null);
+
+        // Looping semua data dan menginputkan data ke dalamnya
+        if (cursor.moveToFirst()) {
+            do {
+                Statistik statistik = new Statistik();
+                statistik.setIdStatistik(Integer.parseInt(cursor.getString(0)));
+                statistik.setJumlahPembeli(cursor.getString(1));
+                statistik.setJumlahTidakBeli(cursor.getString(2));
+                statistik.setPersentase(cursor.getString(3));
+//                statistik.setTrueTrue(cursor.getString(4));
+//                statistik.setTrueFalse(cursor.getString(5));
+//                statistik.setFalseTrue(cursor.getString(6));
+//                statistik.setFalseFalse(cursor.getString(7));
+
+
+                //Menambahkan user ke list
+                statistikList.add(statistik);
+
+            } while (cursor.moveToNext());
+        }
+
+        // return konsumenList
+        return statistikList;
+    }
+
+    //FIX
     public int updateUser(Konsumen kosumen, int position) {
         SQLiteDatabase db = this.getWritableDatabase();
 
@@ -161,6 +218,20 @@ public class OpenHelper extends SQLiteOpenHelper  {
     }
 
     //FIX
+    public int updateStatistik(Statistik statistik, int position) {
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        ContentValues values = new ContentValues();
+        values.put(KEY_COSTUMER_REALITAPEMBELIAN, statistik.getJumlahPembeli());
+        values.put(KEY_COSTUMER_REALITAPEMBELIAN, statistik.getJumlahTidakBeli());
+        values.put(KEY_COSTUMER_REALITAPEMBELIAN, statistik.getPersentase());
+
+        // updating
+        return db.update(TABLE_STATISTIK, values, KEY_COSTUMER_ID + " = ?",
+                new String[] { "1" });
+    }
+
+    //FIX
     public void deleteKonsumen(int id) {
         SQLiteDatabase db = this.getWritableDatabase();
         db.delete(TABLE_USER, KEY_COSTUMER_ID + " = ?",
@@ -168,6 +239,9 @@ public class OpenHelper extends SQLiteOpenHelper  {
         db.close();
     }
 
+    public void deleteAllStatistik(SQLiteDatabase db){
+        db.execSQL("delete from "+ TABLE_STATISTIK);
+    }
 
     //FIX
     public int getKonsumenCount() {
