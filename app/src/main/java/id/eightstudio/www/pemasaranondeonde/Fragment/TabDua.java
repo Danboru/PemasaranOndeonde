@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.util.DisplayMetrics;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -97,7 +98,7 @@ public class TabDua extends Fragment {
         swipeRefreshLayout.setRefreshing(false);
     }
 
-    private void showSearchDialog(Context context) {
+    private void showSearchDialog(final Context context) {
         final Dialog dialog = new Dialog(context);
 
 
@@ -112,6 +113,21 @@ public class TabDua extends Fragment {
         int width = metrics.widthPixels;
         dialog.getWindow().setLayout((6 * width) / 7, LinearLayout.LayoutParams.WRAP_CONTENT);
 
+
+        final Button search = dialog.findViewById(R.id.btnSearchData);
+        search.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                TextView txtInputData = dialog.findViewById(R.id.txtInputSearch);
+                if (TextUtils.isEmpty(txtInputData.getText())) {
+                    Toast.makeText(context, "Isikan Data", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(context, "Fungsi Seach Belum Di Buat :)", Toast.LENGTH_SHORT).show();
+                    dialog.dismiss();
+                }
+            }
+        });
 
         dialog.show();
     }
