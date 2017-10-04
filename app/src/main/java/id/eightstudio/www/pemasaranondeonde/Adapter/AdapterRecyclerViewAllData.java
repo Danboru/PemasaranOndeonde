@@ -193,7 +193,6 @@ public class AdapterRecyclerViewAllData extends RecyclerView.Adapter<AdapterRecy
     private void showDialogDetail(final int posisi, final Context context) {
         final Dialog dialog = new Dialog(context);
 
-
         //Set layout
         dialog.setContentView(R.layout.popup_detail);
 

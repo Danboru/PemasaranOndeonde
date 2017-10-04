@@ -4,6 +4,7 @@ import android.app.Dialog;
 import android.content.Context;
 import android.graphics.Color;
 import android.support.annotation.Nullable;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -34,6 +35,7 @@ import id.eightstudio.www.pemasaranondeonde.R;
 public class TabDua extends Fragment {
     private static final String TAG = "TabDua";
 
+    FloatingActionButton floatingActionButton;
     ArrayList<Konsumen> dataListKonsumen = new ArrayList<>();
     RecyclerView viewAllData;
     OpenHelper database;
@@ -47,6 +49,7 @@ public class TabDua extends Fragment {
 
         viewAllData = view.findViewById(R.id.recyclerViewViewAllData);
         swipeRefreshLayout = view.findViewById(R.id.swipeRefreshMain);
+        floatingActionButton = view.findViewById(R.id.fabSearchData);
 
         database = new OpenHelper(view.getContext());
         dataListKonsumen = database.getAllKonsumen();
@@ -69,6 +72,15 @@ public class TabDua extends Fragment {
             }
         });
 
+        //SearchData
+        floatingActionButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                showSearchDialog(getContext());
+            }
+        });
+
         return view;
     }
 
@@ -83,6 +95,25 @@ public class TabDua extends Fragment {
         }
         
         swipeRefreshLayout.setRefreshing(false);
+    }
+
+    private void showSearchDialog(Context context) {
+        final Dialog dialog = new Dialog(context);
+
+
+        //Set layout
+        dialog.setContentView(R.layout.popup_search);
+
+        //Membuat agar dialog tidak hilang saat di click di area luar dialog
+        dialog.setCanceledOnTouchOutside(true);
+
+        //Membuat dialog agar berukuran responsive
+        DisplayMetrics metrics = context.getResources().getDisplayMetrics();
+        int width = metrics.widthPixels;
+        dialog.getWindow().setLayout((6 * width) / 7, LinearLayout.LayoutParams.WRAP_CONTENT);
+
+
+        dialog.show();
     }
 
 }

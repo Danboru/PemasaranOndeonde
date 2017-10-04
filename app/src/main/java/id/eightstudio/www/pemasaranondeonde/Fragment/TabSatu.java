@@ -8,6 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -75,18 +76,24 @@ public class TabSatu extends Fragment {
                 ketertarikanBarang(ketertarikanBarang.getSelectedItem().toString());
                 hargaBarang(hargaMenurutKonsumen.getSelectedItem().toString());
 
-                database.addUser(new Konsumen(inputNama.getText().toString() , dataJenisKelamin, dataUmurKonsumen, dataPekerjaanKonsumen,
-                        dataPendidikanKonsumen, dataPengetahuanTentangBarang, dataKetertarikanBarang, dataHargaMenurutKonsumen,
+                if (TextUtils.isEmpty(inputNama.getText())) {
+                    Toast.makeText(getContext(), "Inputkan Nama", Toast.LENGTH_SHORT).show();
+                } else {
 
-                        PrediksiPembelian.prediksiPembelian(dataJenisKelamin, dataUmurKonsumen,
-                                dataPekerjaanKonsumen, dataPendidikanKonsumen,
-                                dataPengetahuanTentangBarang, dataKetertarikanBarang,
-                                dataHargaMenurutKonsumen), 3));
+                    database.addUser(new Konsumen(inputNama.getText().toString() , dataJenisKelamin, dataUmurKonsumen, dataPekerjaanKonsumen,
+                            dataPendidikanKonsumen, dataPengetahuanTentangBarang, dataKetertarikanBarang, dataHargaMenurutKonsumen,
 
-                database.close();
+                            PrediksiPembelian.prediksiPembelian(dataJenisKelamin, dataUmurKonsumen,
+                                    dataPekerjaanKonsumen, dataPendidikanKonsumen,
+                                    dataPengetahuanTentangBarang, dataKetertarikanBarang,
+                                    dataHargaMenurutKonsumen), 3));
 
-                //Reset EditText
-                inputNama.setText("");
+                    database.close();
+
+                    //Reset EditText
+                    inputNama.setText("");
+
+                }
             }
         });
         
