@@ -63,7 +63,7 @@ public class TabTiga extends Fragment {
                 }
                 
                 //Memverifikasi semua data
-                if ( (belumVerifikasi > 0) ){
+                if ( (belumVerifikasi > 0) && database.getAllKonsumen().size() > 0 ){
                     Toast.makeText(getContext(), "Verifikasi Semua Data", Toast.LENGTH_SHORT).show();
                 } else {
 
@@ -90,8 +90,6 @@ public class TabTiga extends Fragment {
                             } else {
                                 FF += 1;
                             }
-
-
                         }
                     }
                 }
@@ -111,7 +109,6 @@ public class TabTiga extends Fragment {
                 dataTemp = pembilang/penyebut;
                 Log.d(TAG, "Persentase = " + dataTemp * 100);
 
-                //TODO Ada Bug Di sini = Jumlah Pembeli kadang bener kadang salah
                 intBeli = 0; tidakBeli = 0;
                 for (int i = 0; i < database.getAllKonsumen().size(); i++) {
 
@@ -123,11 +120,7 @@ public class TabTiga extends Fragment {
                 }
 
                 database.deleteAllStatistik(dataMain);
-                database.addDataStatistik(new Statistik(String.valueOf(intBeli), String.valueOf(tidakBeli), String.valueOf(dataTemp * 100)));
-
-//                for (int i = 0; i < database.getAllStatistik().size(); i++) {
-//                    Log.d(TAG, "Jumlah Pembeli = : " + database.getAllStatistik().get(i).getJumlahPembeli());
-//                }
+                database.addDataStatistik(new Statistik(String.valueOf(intBeli), String.valueOf(tidakBeli), String.valueOf(Math.round(dataTemp * 100))));
 
                 database.close();
             }

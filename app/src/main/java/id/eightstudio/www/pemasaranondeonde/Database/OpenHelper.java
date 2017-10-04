@@ -9,6 +9,7 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 
 import java.util.ArrayList;
+import java.util.concurrent.Exchanger;
 
 import id.eightstudio.www.pemasaranondeonde.Provider.Konsumen;
 import id.eightstudio.www.pemasaranondeonde.Provider.Statistik;
@@ -23,9 +24,11 @@ public class OpenHelper extends SQLiteOpenHelper  {
     // All Static variables
     // Database Version
     private static final int DATABASE_VERSION = 1;
+
     // Database Name
     private static final String DATABASE_NAME = "penjualan";
-    // User Taable Name
+
+    // User Table Name
     private static final String TABLE_USER = "konsumen";
     private static final String TABLE_STATISTIK = "statistik";
 
@@ -146,25 +149,31 @@ public class OpenHelper extends SQLiteOpenHelper  {
         Cursor cursor = db.rawQuery(selectQuery, null);
 
         // Looping semua data dan menginputkan data ke dalamnya
-        if (cursor.moveToFirst()) {
-            do {
-                Konsumen user = new Konsumen();
-                user.setIdUser(Integer.parseInt(cursor.getString(0)));
-                user.setKonsumenName(cursor.getString(1));
-                user.setJenisKelamin(Integer.parseInt(cursor.getString(2)));
-                user.setUmurKonsumen(Integer.parseInt(cursor.getString(3)));
-                user.setPekerjaanKonsumen(Integer.parseInt(cursor.getString(4)));
-                user.setPendidikanKonsumen(Integer.parseInt(cursor.getString(5)));
-                user.setPengetahuanTentangBarang(Integer.parseInt(cursor.getString(6)));
-                user.setKetertarikanBarang(Integer.parseInt(cursor.getString(7)));
-                user.setHargaMenurutKonsumen(Integer.parseInt(cursor.getString(8)));
-                user.setPrediksiPembelian(Integer.parseInt(cursor.getString(9)));
-                user.setRealitaPembelian(Integer.parseInt(cursor.getString(10)));
+        try {
 
-                //Menambahkan user ke list
-                konsumenList.add(user);
+            if (cursor.moveToFirst()) {
+                do {
+                    Konsumen user = new Konsumen();
+                    user.setIdUser(Integer.parseInt(cursor.getString(0)));
+                    user.setKonsumenName(cursor.getString(1));
+                    user.setJenisKelamin(Integer.parseInt(cursor.getString(2)));
+                    user.setUmurKonsumen(Integer.parseInt(cursor.getString(3)));
+                    user.setPekerjaanKonsumen(Integer.parseInt(cursor.getString(4)));
+                    user.setPendidikanKonsumen(Integer.parseInt(cursor.getString(5)));
+                    user.setPengetahuanTentangBarang(Integer.parseInt(cursor.getString(6)));
+                    user.setKetertarikanBarang(Integer.parseInt(cursor.getString(7)));
+                    user.setHargaMenurutKonsumen(Integer.parseInt(cursor.getString(8)));
+                    user.setPrediksiPembelian(Integer.parseInt(cursor.getString(9)));
+                    user.setRealitaPembelian(Integer.parseInt(cursor.getString(10)));
 
-            } while (cursor.moveToNext());
+                    //Menambahkan user ke list
+                    konsumenList.add(user);
+
+                } while (cursor.moveToNext());
+            }
+
+        } finally {
+            Log.d(TAG, "CursorWindowAllocationException");
         }
 
         // return konsumenList

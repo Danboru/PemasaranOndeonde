@@ -3,7 +3,6 @@ package id.eightstudio.www.pemasaranondeonde.Fragment;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,9 +23,10 @@ public class ContentSatu extends Fragment {
     private static final String TAG = "ContentSatu";
     
     String persentaseFloat = "";
-    
-    float rainFall[] = { Float.parseFloat("70.0f"), 30.0f};
-    String bulanSetahun[] = {"Kemungkinan Beli", "Kemungkinan Tidak Beli"};
+
+    //
+    float rainFall[] = { Float.parseFloat("30.0f"), 40.0f, 20.0f, 60.0f, 90.0f};
+    String bulanSetahun[] = {"Kemungkinan Beli", "Kemungkinan Tidak Beli", "Kemungkinan Tidak Beli", "Kemungkinan Tidak Beli", "Kemungkinan Tidak Beli"};
 
     //Singleton
     public static ContentSatu newInstance() {

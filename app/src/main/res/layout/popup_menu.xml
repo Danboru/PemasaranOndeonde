@@ -8,7 +8,7 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Verivikasi Pembelian"
+        android:text="Verifikasi Pembelian"
         android:gravity="center"
         android:textSize="20sp"
         />
@@ -36,6 +36,14 @@
             />
 
     </LinearLayout>
+
+    <Button
+        android:id="@+id/lihatDetailData"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Liha Detail"
+        android:layout_marginBottom="5dp"
+        />
 
     <Button
         android:id="@+id/deleteData"

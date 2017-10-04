@@ -56,6 +56,7 @@ public class TabDua extends Fragment {
         viewAllData.setHasFixedSize(true);
         viewAllData.setLayoutManager(new LinearLayoutManager(getContext()));
 
+        //Refresh Datalist
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
