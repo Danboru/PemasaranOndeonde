@@ -60,7 +60,6 @@ public class ContentDua extends Fragment {
         konsumenTidakBeli.setText(jumlahTidakBeli);
         persentase.setText(persentaseData + " %");
 
-        database.close();
 
         //Detail Kelayakan
         detailKelayakan.setOnClickListener(new View.OnClickListener() {
@@ -120,7 +119,6 @@ public class ContentDua extends Fragment {
                 Log.d(TAG, "Jumlah FF = " + FF);
 
                 dialog.show();
-                database.close();
             }
         });
 

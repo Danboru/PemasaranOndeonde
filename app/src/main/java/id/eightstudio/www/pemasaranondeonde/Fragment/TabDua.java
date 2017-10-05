@@ -77,7 +77,6 @@ public class TabDua extends Fragment {
                 adapter.notifyItemInserted(0);
                 adapter.notifyDataSetChanged();
                 onItemsLoadComplete(view.getContext(), database, view);
-                database.close();
             }
         });
 
@@ -89,7 +88,6 @@ public class TabDua extends Fragment {
             }
         });
 
-        database.close();
         return view;
     }
 
@@ -97,11 +95,9 @@ public class TabDua extends Fragment {
 
         if (database.getAllKonsumen().size() <= 0) {
             Snackbar.make(view, "Database Kosong", Snackbar.LENGTH_SHORT).show();
-            database.close();
         } else {
             Common.belumVerifikasi = 0;
             Snackbar.make(view, "Up to Date", Snackbar.LENGTH_SHORT).show();
-            database.close();
         }
         
         swipeRefreshLayout.setRefreshing(false);
@@ -130,10 +126,8 @@ public class TabDua extends Fragment {
                 TextView txtInputData = dialog.findViewById(R.id.txtInputSearch);
                 if (TextUtils.isEmpty(txtInputData.getText())) {
                     Snackbar.make(view, "Isikan data", Snackbar.LENGTH_SHORT).show();
-                    database.close();
                 } else {
                     Snackbar.make(view, "Fungsi Seach Belum Di Buat :)", Snackbar.LENGTH_SHORT).show();
-                    database.close();
                     dialog.dismiss();
                 }
             }

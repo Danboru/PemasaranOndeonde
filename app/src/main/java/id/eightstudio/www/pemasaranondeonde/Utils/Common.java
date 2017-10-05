@@ -8,4 +8,5 @@ public class Common {
 
     //Ada di TabTiga, TabDua
     public static int belumVerifikasi;
+    public static String dataSatu;
 }

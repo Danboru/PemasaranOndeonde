@@ -166,7 +166,6 @@ public class TabTiga extends Fragment {
                 String.valueOf(Math.round(dataTemp * 100)), String.valueOf(TT), String.valueOf(TF),
                 String.valueOf(FT), String.valueOf(FF) ));
 
-        database.close();
     }
 
     /***

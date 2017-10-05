@@ -22,6 +22,8 @@ import android.widget.Toast;
 
 import id.eightstudio.www.pemasaranondeonde.Adapter.TabAdapter;
 import id.eightstudio.www.pemasaranondeonde.Database.OpenHelper;
+import id.eightstudio.www.pemasaranondeonde.Provider.Statistik;
+import id.eightstudio.www.pemasaranondeonde.Utils.Common;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -53,6 +55,10 @@ public class MainActivity extends AppCompatActivity {
         TabAdapter adapter = new TabAdapter(getSupportFragmentManager());
         viewPager.setAdapter(adapter);
         tabLayout.setupWithViewPager(viewPager);
+
+        //Defaulth Value
+        database.addDataStatistik(new Statistik("0","0","0","0","0","0","0"));
+        Common.dataSatu = database.getAllStatistik().get(0).getPersentase();
 
     }
 

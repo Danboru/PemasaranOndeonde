@@ -97,12 +97,10 @@ public class TabSatu extends Fragment {
                     //Reset EditText
                     inputNama.setText("");
                     Snackbar.make(view, "Data Tersimpan", Snackbar.LENGTH_SHORT).show();
-                    database.close();
                 }
             }
         });
 
-        database.close();
         return view;
     }
 

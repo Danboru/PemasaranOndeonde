@@ -203,7 +203,6 @@ public class OpenHelper extends SQLiteOpenHelper  {
             } while (cursor.moveToNext());
         }
 
-        db.close();
         // return konsumenList
         return statistikList;
     }
@@ -225,19 +224,19 @@ public class OpenHelper extends SQLiteOpenHelper  {
         SQLiteDatabase db = this.getWritableDatabase();
         db.delete(TABLE_USER, KEY_COSTUMER_ID + " = ?",
                 new String[] { String.valueOf(id) });
-        db.close();
+
     }
 
     //FIX
     public void deleteAllStatistik(SQLiteDatabase db){
         db.execSQL("delete from "+ TABLE_STATISTIK);
-        db.close();
+
     }
 
     //FIX
     public void deleteAllKonsumen(SQLiteDatabase db){
         db.execSQL("delete from "+ TABLE_USER);
-        db.close();
+
     }
 
     //FIX
@@ -246,9 +245,7 @@ public class OpenHelper extends SQLiteOpenHelper  {
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery(countQuery, null);
         int cnt = cursor.getCount();
-        cursor.close();
 
-        db.close();
         return cnt;
     }
 

@@ -140,7 +140,6 @@ public class AdapterRecyclerViewAllData extends RecyclerView.Adapter<AdapterRecy
                 OpenHelper database = new OpenHelper(context);
                 database.updateUser(new Konsumen(2), konsumen.getIdUser());
 
-                database.close();
                 dialog.dismiss();
             }
         });
@@ -155,7 +154,6 @@ public class AdapterRecyclerViewAllData extends RecyclerView.Adapter<AdapterRecy
                 OpenHelper database = new OpenHelper(context);
                 database.updateUser(new Konsumen(1), konsumen.getIdUser());
 
-                database.close();
                 dialog.dismiss();
             }
         });
@@ -171,7 +169,6 @@ public class AdapterRecyclerViewAllData extends RecyclerView.Adapter<AdapterRecy
                 OpenHelper database = new OpenHelper(context);
                 database.deleteKonsumen(konsumen.getIdUser());
 
-                database.close();
                 dialog.dismiss();
             }
         });
@@ -313,6 +310,5 @@ public class AdapterRecyclerViewAllData extends RecyclerView.Adapter<AdapterRecy
             default  :  detailHarga.setText("Tidak Sesuai"); break;
         }
 
-        database.close();
     }
 }
