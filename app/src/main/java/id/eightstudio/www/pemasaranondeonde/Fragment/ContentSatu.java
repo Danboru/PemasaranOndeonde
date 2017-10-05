@@ -3,6 +3,7 @@ package id.eightstudio.www.pemasaranondeonde.Fragment;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,16 +18,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 import id.eightstudio.www.pemasaranondeonde.Database.OpenHelper;
+import id.eightstudio.www.pemasaranondeonde.Provider.Statistik;
 import id.eightstudio.www.pemasaranondeonde.R;
 
 public class ContentSatu extends Fragment {
     private static final String TAG = "ContentSatu";
     
     String persentaseFloat = "";
+    OpenHelper database;
 
-    //
-    float rainFall[] = { Float.parseFloat("30.0f"), 40.0f, 20.0f, 60.0f, 90.0f};
-    String bulanSetahun[] = {"Kemungkinan Beli", "Kemungkinan Tidak Beli", "Kemungkinan Tidak Beli", "Kemungkinan Tidak Beli", "Kemungkinan Tidak Beli"};
+    String dataSatu , dataDua;
 
     //Singleton
     public static ContentSatu newInstance() {
@@ -39,10 +40,20 @@ public class ContentSatu extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = LayoutInflater.from(container.getContext()).inflate(R.layout.activity_content_satu, container, false);
 
+        database = new OpenHelper(getContext());
+
+        //Init Data Satu dan Data Dua
+        dataSatu = database.getAllStatistik().get(0).getPersentase();
+        int dataStatistikTemp = 100 - Integer.parseInt(dataSatu);
+
+        //Variable yang di butuhkan oelh chart
+        float dataStatistik[] = { Float.parseFloat(dataSatu + "f") , Float.parseFloat(dataStatistikTemp + "f")};
+        String labelStatistik[] = {"Jumlah Pembeli", "Jumlah Tidak Beli"};
+
         List<PieEntry> pieEntries = new ArrayList<>();
 
-        for (int i = 0; i < rainFall.length; i++) {
-            pieEntries.add(new PieEntry(rainFall[i], bulanSetahun[i]));
+        for (int i = 0; i < dataStatistik.length; i++) {
+            pieEntries.add(new PieEntry(dataStatistik[i], labelStatistik[i]));
         }
 
         PieDataSet dataSet = new PieDataSet(pieEntries, "");
@@ -56,6 +67,7 @@ public class ContentSatu extends Fragment {
         pieChart.animateY(1000);
         pieChart.invalidate();
 
+        database.close();
         return view;
     }
 }

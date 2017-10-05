@@ -49,7 +49,11 @@ public class OpenHelper extends SQLiteOpenHelper  {
     private static final String KEY_STATISTIK_ID = "id_statistik";
     private static final String KEY_STATISTIK_JUMLAHPEMBELI = "jumlah_pembeli";
     private static final String KEY_STATISTIK_JUMLAHTIDAKBELI = "jumlah_tidakbeli";
-    private static final String KEY_STATISTIK__HASIL_PERSENTASE = "persentase";
+    private static final String KEY_STATISTIK_HASIL_PERSENTASE = "persentase";
+    private static final String KEY_STATISTIK_TRUE_TRUE = "benar_benar";
+    private static final String KEY_STATISTIK_TRUE_FALSE = "benar_salah";
+    private static final String KEY_STATISTIK_FALSE_TRUE = "salah_benar";
+    private static final String KEY_STATISTIK_FALSE_FALSE = "salah_salah";
 
     public OpenHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -69,7 +73,9 @@ public class OpenHelper extends SQLiteOpenHelper  {
 
         String CREATE_STATISTIK_TABLE = "CREATE TABLE " + TABLE_STATISTIK + "("
                 + KEY_STATISTIK_ID + " INTEGER PRIMARY KEY, " + KEY_STATISTIK_JUMLAHPEMBELI + " TEXT, "
-                + KEY_STATISTIK_JUMLAHTIDAKBELI + " TEXT, " + KEY_STATISTIK__HASIL_PERSENTASE + " TEXT" + ")";
+                + KEY_STATISTIK_JUMLAHTIDAKBELI + " TEXT, " + KEY_STATISTIK_HASIL_PERSENTASE + " TEXT,"
+                + KEY_STATISTIK_TRUE_TRUE + " TEXT," + KEY_STATISTIK_TRUE_FALSE + " TEXT,"
+                + KEY_STATISTIK_FALSE_TRUE + " TEXT," + KEY_STATISTIK_FALSE_FALSE + " TEXT" + ")";
 
         sqLiteDatabase.execSQL(CREATE_COSTUMER_TABLE);
         sqLiteDatabase.execSQL(CREATE_STATISTIK_TABLE);
@@ -106,6 +112,7 @@ public class OpenHelper extends SQLiteOpenHelper  {
         db.close(); // Closing database connection
     }
 
+    //TODO Bug Di sini : Tidak Bisa insert
     //FIX
     public void addDataStatistik(Statistik statistik) {
         SQLiteDatabase db = this.getWritableDatabase();
@@ -113,29 +120,15 @@ public class OpenHelper extends SQLiteOpenHelper  {
         ContentValues data = new ContentValues();
         data.put(KEY_STATISTIK_JUMLAHPEMBELI, statistik.getJumlahPembeli());
         data.put(KEY_STATISTIK_JUMLAHTIDAKBELI, statistik.getJumlahTidakBeli());
-        data.put(KEY_STATISTIK__HASIL_PERSENTASE, statistik.getPersentase());
+        data.put(KEY_STATISTIK_HASIL_PERSENTASE, statistik.getPersentase());
+        data.put(KEY_STATISTIK_TRUE_TRUE, statistik.getTT());
+        data.put(KEY_STATISTIK_TRUE_FALSE, statistik.getTF());
+        data.put(KEY_STATISTIK_FALSE_TRUE, statistik.getFT());
+        data.put(KEY_STATISTIK_FALSE_FALSE, statistik.getFF());
 
         // Inserting Row
         db.insert(TABLE_STATISTIK, null, data);
         db.close(); // Closing database connection
-    }
-
-
-    //FIX
-    public Statistik getDataStatistik(int id) {
-        SQLiteDatabase db = this.getReadableDatabase();
-
-        Cursor cursor = db.query(TABLE_STATISTIK, new String[] { KEY_STATISTIK_JUMLAHPEMBELI,
-                        KEY_STATISTIK_JUMLAHTIDAKBELI, KEY_STATISTIK__HASIL_PERSENTASE
-                }, KEY_STATISTIK_ID + " = ?",
-                new String[] { String.valueOf(id) }, null, null, null, null);
-        if (cursor != null)
-            cursor.moveToFirst();
-
-        Statistik statistikData = new Statistik(Integer.parseInt(cursor.getString(0)), cursor.getString(1), cursor.getString(2),cursor.getString(3));
-
-        //Return user
-        return statistikData;
     }
 
     //FIX
@@ -180,6 +173,7 @@ public class OpenHelper extends SQLiteOpenHelper  {
         return konsumenList;
     }
 
+    //TODO Bug Di sini : Tidak Bisa select
     //FIX
     public ArrayList<Statistik> getAllStatistik() {
         ArrayList<Statistik> statistikList = new ArrayList<Statistik>();
@@ -198,18 +192,18 @@ public class OpenHelper extends SQLiteOpenHelper  {
                 statistik.setJumlahPembeli(cursor.getString(1));
                 statistik.setJumlahTidakBeli(cursor.getString(2));
                 statistik.setPersentase(cursor.getString(3));
-//                statistik.setTrueTrue(cursor.getString(4));
-//                statistik.setTrueFalse(cursor.getString(5));
-//                statistik.setFalseTrue(cursor.getString(6));
-//                statistik.setFalseFalse(cursor.getString(7));
+                statistik.setTT(cursor.getString(4));
+                statistik.setTF(cursor.getString(5));
+                statistik.setFT(cursor.getString(6));
+                statistik.setFF(cursor.getString(7));
 
-
-                //Menambahkan user ke list
+                //Menambahkan statistik ke list
                 statistikList.add(statistik);
 
             } while (cursor.moveToNext());
         }
 
+        db.close();
         // return konsumenList
         return statistikList;
     }
@@ -227,20 +221,6 @@ public class OpenHelper extends SQLiteOpenHelper  {
     }
 
     //FIX
-    public int updateStatistik(Statistik statistik, int position) {
-        SQLiteDatabase db = this.getWritableDatabase();
-
-        ContentValues values = new ContentValues();
-        values.put(KEY_COSTUMER_REALITAPEMBELIAN, statistik.getJumlahPembeli());
-        values.put(KEY_COSTUMER_REALITAPEMBELIAN, statistik.getJumlahTidakBeli());
-        values.put(KEY_COSTUMER_REALITAPEMBELIAN, statistik.getPersentase());
-
-        // updating
-        return db.update(TABLE_STATISTIK, values, KEY_COSTUMER_ID + " = ?",
-                new String[] { "1" });
-    }
-
-    //FIX
     public void deleteKonsumen(int id) {
         SQLiteDatabase db = this.getWritableDatabase();
         db.delete(TABLE_USER, KEY_COSTUMER_ID + " = ?",
@@ -248,8 +228,16 @@ public class OpenHelper extends SQLiteOpenHelper  {
         db.close();
     }
 
+    //FIX
     public void deleteAllStatistik(SQLiteDatabase db){
         db.execSQL("delete from "+ TABLE_STATISTIK);
+        db.close();
+    }
+
+    //FIX
+    public void deleteAllKonsumen(SQLiteDatabase db){
+        db.execSQL("delete from "+ TABLE_USER);
+        db.close();
     }
 
     //FIX
@@ -259,6 +247,8 @@ public class OpenHelper extends SQLiteOpenHelper  {
         Cursor cursor = db.rawQuery(countQuery, null);
         int cnt = cursor.getCount();
         cursor.close();
+
+        db.close();
         return cnt;
     }
 

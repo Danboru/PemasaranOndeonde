@@ -8,21 +8,11 @@
     tools:context="id.eightstudio.www.pemasaranondeonde.MainActivity">
 
     <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbarMain"
         android:layout_width="match_parent"
         android:background="@color/colorPrimaryDark"
         android:layout_height="wrap_content"
         >
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/app_name"
-            android:textSize="20sp"
-            android:textColor="@color/colorWhite"
-            android:textStyle="bold"
-            android:layout_marginRight="20dp"
-            android:gravity="center"
-            />
 
     </android.support.v7.widget.Toolbar>
 

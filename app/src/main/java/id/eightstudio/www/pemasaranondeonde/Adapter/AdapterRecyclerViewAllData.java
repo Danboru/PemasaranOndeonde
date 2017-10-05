@@ -176,7 +176,7 @@ public class AdapterRecyclerViewAllData extends RecyclerView.Adapter<AdapterRecy
             }
         });
 
-        //Detail Data (PROGRESS)
+        //Detail Data (FIX)
         Button buttonDetailData = dialog.findViewById(R.id.lihatDetailData);
         buttonDetailData.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -314,8 +314,5 @@ public class AdapterRecyclerViewAllData extends RecyclerView.Adapter<AdapterRecy
         }
 
         database.close();
-
     }
-
-
 }

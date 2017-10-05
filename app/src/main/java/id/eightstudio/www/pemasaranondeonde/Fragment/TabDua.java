@@ -5,6 +5,7 @@ import android.content.Context;
 import android.graphics.Color;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -32,6 +33,7 @@ import id.eightstudio.www.pemasaranondeonde.Database.OpenHelper;
 import id.eightstudio.www.pemasaranondeonde.MainActivity;
 import id.eightstudio.www.pemasaranondeonde.Provider.Konsumen;
 import id.eightstudio.www.pemasaranondeonde.R;
+import id.eightstudio.www.pemasaranondeonde.Utils.Common;
 
 public class TabDua extends Fragment {
     private static final String TAG = "TabDua";
@@ -74,7 +76,7 @@ public class TabDua extends Fragment {
                 dataListKonsumen.addAll(database.getAllKonsumen());
                 adapter.notifyItemInserted(0);
                 adapter.notifyDataSetChanged();
-                onItemsLoadComplete(view.getContext(), database);
+                onItemsLoadComplete(view.getContext(), database, view);
                 database.close();
             }
         });
@@ -83,21 +85,22 @@ public class TabDua extends Fragment {
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
                 showSearchDialog(getContext());
             }
         });
 
+        database.close();
         return view;
     }
 
-    private void onItemsLoadComplete(Context context, OpenHelper database) {
+    private void onItemsLoadComplete(Context context, OpenHelper database, View view) {
 
         if (database.getAllKonsumen().size() <= 0) {
-            Toast.makeText(context, "Tidak Ada Data", Toast.LENGTH_SHORT).show();
+            Snackbar.make(view, "Database Kosong", Snackbar.LENGTH_SHORT).show();
             database.close();
         } else {
-            Toast.makeText(context, "Up to Date", Toast.LENGTH_SHORT).show();
+            Common.belumVerifikasi = 0;
+            Snackbar.make(view, "Up to Date", Snackbar.LENGTH_SHORT).show();
             database.close();
         }
         
@@ -106,7 +109,6 @@ public class TabDua extends Fragment {
 
     private void showSearchDialog(final Context context) {
         final Dialog dialog = new Dialog(context);
-
 
         //Set layout
         dialog.setContentView(R.layout.popup_search);
@@ -119,7 +121,7 @@ public class TabDua extends Fragment {
         int width = metrics.widthPixels;
         dialog.getWindow().setLayout((6 * width) / 7, LinearLayout.LayoutParams.WRAP_CONTENT);
 
-
+        //Fungsi Search
         final Button search = dialog.findViewById(R.id.btnSearchData);
         search.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -127,9 +129,11 @@ public class TabDua extends Fragment {
 
                 TextView txtInputData = dialog.findViewById(R.id.txtInputSearch);
                 if (TextUtils.isEmpty(txtInputData.getText())) {
-                    Toast.makeText(context, "Isikan Data", Toast.LENGTH_SHORT).show();
+                    Snackbar.make(view, "Isikan data", Snackbar.LENGTH_SHORT).show();
+                    database.close();
                 } else {
-                    Toast.makeText(context, "Fungsi Seach Belum Di Buat :)", Toast.LENGTH_SHORT).show();
+                    Snackbar.make(view, "Fungsi Seach Belum Di Buat :)", Snackbar.LENGTH_SHORT).show();
+                    database.close();
                     dialog.dismiss();
                 }
             }

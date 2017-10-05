@@ -3,6 +3,7 @@ package id.eightstudio.www.pemasaranondeonde.Fragment;
 import android.content.Context;
 import android.graphics.Color;
 import android.support.annotation.Nullable;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -35,18 +36,19 @@ import id.eightstudio.www.pemasaranondeonde.Utils.PrediksiPembelian;
 public class TabSatu extends Fragment {
     private static final String TAG = "TabSatu";
 
+    //View
     private TextView idKonsumen;
     private Spinner jenisKelamin, umurKonsumen, pekerjaanKonsumen, pendidikanKonsumen,
             pengetahuanTentangBarang, ketertarikanBarang, hargaMenurutKonsumen;
-
     private Button buttonSimpanData;
     private EditText inputNama;
 
+    //Penympanan Data
     ArrayList<Konsumen> dataKonsumen;
     CustomSpinnerAdapter jenisKelaminAdapter, umurKonsumenAdapter, pekerjaanKonsumenAdapter, pendidikanKonsumenAdapter,
             pengetahuanTentangBarangAdapter, ketertarikanBarangAdapter, hargaMenurutKonsumenAdapter;
 
-    //Konversi data
+    //Konversi Data
     int dataJenisKelamin, dataUmurKonsumen, dataPekerjaanKonsumen, dataPendidikanKonsumen;
     int dataPengetahuanTentangBarang, dataKetertarikanBarang, dataHargaMenurutKonsumen;
 
@@ -55,9 +57,11 @@ public class TabSatu extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = LayoutInflater.from(container.getContext()).inflate(R.layout.activity_tab_satu, container, false);
 
+        //TODO : Debugging
         Log.d(TAG, "Database Status : " + "Database berhasil di buat ");
         final OpenHelper database = new OpenHelper(getContext());
 
+        //Memanggil Fungsi
         bindView(view);
         setAdapter();
 
@@ -77,7 +81,7 @@ public class TabSatu extends Fragment {
                 hargaBarang(hargaMenurutKonsumen.getSelectedItem().toString());
 
                 if (TextUtils.isEmpty(inputNama.getText())) {
-                    Toast.makeText(getContext(), "Inputkan Nama", Toast.LENGTH_SHORT).show();
+                    Snackbar.make(view, "Nama Tidak Boleh Kosong", Snackbar.LENGTH_SHORT).show();
                 } else {
 
                     database.addUser(new Konsumen(inputNama.getText().toString() , dataJenisKelamin, dataUmurKonsumen, dataPekerjaanKonsumen,
@@ -92,11 +96,13 @@ public class TabSatu extends Fragment {
 
                     //Reset EditText
                     inputNama.setText("");
-
+                    Snackbar.make(view, "Data Tersimpan", Snackbar.LENGTH_SHORT).show();
+                    database.close();
                 }
             }
         });
-        
+
+        database.close();
         return view;
     }
 
@@ -149,7 +155,7 @@ public class TabSatu extends Fragment {
     }
 
     /***
-     * Fungsi ini di gunakan untuk menset adapter ke spinner/dropdown yang di gunakan
+     * Di gunakan untuk menset adapter ke spinner/dropdown yang di gunakan
      * */
     private void setAdapter() {
 
@@ -228,7 +234,6 @@ public class TabSatu extends Fragment {
         ketertarikanBarang = view.findViewById(R.id.spinner_ketertarikanBarang);
         hargaMenurutKonsumen = view.findViewById(R.id.spinner_hargamenurutKonsumen);
         inputNama = view.findViewById(R.id.txtInputMain);
-
     }
 
     /***

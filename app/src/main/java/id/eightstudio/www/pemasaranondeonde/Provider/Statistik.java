@@ -10,21 +10,23 @@ public class Statistik {
     private String jumlahPembeli;
     private String jumlahTidakBeli;
     private String persentase;
-    private int trueTrue;
-    private int trueFalse;
-    private int falseTrue;
-    private int falseFalse;
+    private String TT;
+    private String TF;
+    private String FT;
+    private String FF;
 
     public Statistik() {
     }
 
-    public Statistik(int i, String string, String cursorString, String s) {
-    }
 
-    public Statistik(String jumlahPembeli, String jumlahTidakBeli, String persentase) {
+    public Statistik(String jumlahPembeli, String jumlahTidakBeli, String persentase, String TT, String TF, String FT, String FF) {
         this.jumlahPembeli = jumlahPembeli;
         this.jumlahTidakBeli = jumlahTidakBeli;
         this.persentase = persentase;
+        this.TT = TT;
+        this.TF = TF;
+        this.FT = FT;
+        this.FF = FF;
     }
 
     public int getIdStatistik() {
@@ -57,5 +59,37 @@ public class Statistik {
 
     public void setPersentase(String persentase) {
         this.persentase = persentase;
+    }
+
+    public String getTT() {
+        return TT;
+    }
+
+    public void setTT(String TT) {
+        this.TT = TT;
+    }
+
+    public String getTF() {
+        return TF;
+    }
+
+    public void setTF(String TF) {
+        this.TF = TF;
+    }
+
+    public String getFT() {
+        return FT;
+    }
+
+    public void setFT(String FT) {
+        this.FT = FT;
+    }
+
+    public String getFF() {
+        return FF;
+    }
+
+    public void setFF(String FF) {
+        this.FF = FF;
     }
 }
