@@ -109,7 +109,6 @@ public class OpenHelper extends SQLiteOpenHelper  {
 
         // Inserting Row
         db.insert(TABLE_USER, null, values);
-        db.close(); // Closing database connection
     }
 
     //TODO Bug Di sini : Tidak Bisa insert
@@ -128,7 +127,6 @@ public class OpenHelper extends SQLiteOpenHelper  {
 
         // Inserting Row
         db.insert(TABLE_STATISTIK, null, data);
-        db.close(); // Closing database connection
     }
 
     //FIX
@@ -236,7 +234,6 @@ public class OpenHelper extends SQLiteOpenHelper  {
     //FIX
     public void deleteAllKonsumen(SQLiteDatabase db){
         db.execSQL("delete from "+ TABLE_USER);
-
     }
 
     //FIX
