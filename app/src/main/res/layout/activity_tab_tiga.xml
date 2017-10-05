@@ -13,6 +13,9 @@
         android:layout_height="wrap_content"
         android:text="Kalkulasi"
         android:layout_margin="10dp"
+        android:background="@color/colorPrimaryDark"
+        android:textColor="@color/colorWhite"
+        android:textStyle="bold"
         />
 
     <FrameLayout

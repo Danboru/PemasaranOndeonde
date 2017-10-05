@@ -139,9 +139,9 @@ public class TabSatu extends Fragment {
         public View getView(int i, View view, ViewGroup viewgroup) {
             TextView txt = new TextView(getContext());
             txt.setGravity(Gravity.CENTER);
-            txt.setPadding(25, 25, 25, 25);
+            txt.setPadding(18, 18, 18, 18);
             txt.setTextSize(18);
-            txt.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_drop_down, 0);
+            txt.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_down, 0);
             txt.setText((CharSequence) listString.get(i));
             txt.setTextColor(Color.parseColor("#000000"));
             return  txt;

@@ -60,6 +60,12 @@ public class TabDua extends Fragment {
         viewAllData.setHasFixedSize(true);
         viewAllData.setLayoutManager(new LinearLayoutManager(getContext()));
 
+        //Set color
+        swipeRefreshLayout.setColorSchemeResources(
+                R.color.colorPrimaryDark,
+                R.color.colorPrimaryDark,
+                R.color.colorPrimaryDark);
+
         //Refresh Datalist
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override

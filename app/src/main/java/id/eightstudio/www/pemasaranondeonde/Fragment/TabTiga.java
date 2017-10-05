@@ -49,6 +49,8 @@ public class TabTiga extends Fragment {
             @Override
             public void onClick(View view) {
 
+                Toast.makeText(getContext(), "Mengkalkulasi", Toast.LENGTH_SHORT).show();
+
                 int belumVerifikasi = 0;
                 OpenHelper database = new OpenHelper(getContext());
                 SQLiteDatabase dataMain = database.getReadableDatabase();
@@ -106,8 +108,19 @@ public class TabTiga extends Fragment {
                 double penyebut = TT + TF + FT + FF;
                 Log.d(TAG, "Penyebut: " + penyebut);
 
-                dataTemp = pembilang/penyebut;
-                Log.d(TAG, "Persentase = " + dataTemp * 100);
+                //Menentukan minimal data kalkulasi
+                if (database.getAllKonsumen().size() < 5) {
+                    Toast.makeText(getContext(), "Data Terlalu Sedikit", Toast.LENGTH_SHORT).show();
+                } else {
+
+                    //Menangani devine by zero
+                    try {
+                        dataTemp = pembilang / penyebut;
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                    Log.d(TAG, "Persentase = " + dataTemp * 100);
+                }
 
                 intBeli = 0; tidakBeli = 0;
                 for (int i = 0; i < database.getAllKonsumen().size(); i++) {

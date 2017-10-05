@@ -90,10 +90,13 @@
     </android.support.v7.widget.CardView>
 
     <android.support.v7.widget.CardView
+        android:id="@+id/detailPersentaseKelayakan"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_weight="1"
         android:layout_margin="10dp"
+        android:background="#cfcdcd"
+        android:clickable="true"
         >
 
        <LinearLayout
@@ -118,6 +121,15 @@
                android:text="90.5%"
                android:gravity="center"
                android:textSize="50sp"
+               android:layout_margin="25dp"
+               />
+
+           <TextView
+               android:layout_width="match_parent"
+               android:layout_height="wrap_content"
+               android:text="Tekan dimanapun untuk Detail"
+               android:gravity="center"
+               android:textColor="@color/colorPrimaryDark"
                />
 
        </LinearLayout>
