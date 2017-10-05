@@ -18,7 +18,9 @@
             android:layout_height="wrap_content"
             android:textSize="25sp"
             android:text="Nama User"
-            android:maxLength="10"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:maxWidth="150dp"
             android:layout_alignParentTop="true"
             />
 

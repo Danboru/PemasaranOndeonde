@@ -63,7 +63,7 @@
                 android:layout_height="wrap_content"
                 android:text="BELI"
                 android:layout_alignParentLeft="true"
-                android:textSize="15sp"
+                android:textSize="10sp"
                 />
 
             <TextView
@@ -71,7 +71,7 @@
                 android:layout_height="wrap_content"
                 android:text="BELI"
                 android:gravity="center"
-                android:textSize="15sp"
+                android:textSize="10sp"
                 />
 
             <TextView
@@ -80,7 +80,7 @@
                 android:layout_height="wrap_content"
                 android:text="0"
                 android:layout_alignParentRight="true"
-                android:textSize="15sp"
+                android:textSize="10sp"
                 />
 
         </RelativeLayout>
@@ -98,7 +98,7 @@
                 android:layout_height="wrap_content"
                 android:text="BELI"
                 android:layout_alignParentLeft="true"
-                android:textSize="15sp"
+                android:textSize="10sp"
                 />
 
             <TextView
@@ -106,7 +106,7 @@
                 android:layout_height="wrap_content"
                 android:text="TIDAK BELI"
                 android:gravity="center"
-                android:textSize="15sp"
+                android:textSize="10sp"
                 />
 
             <TextView
@@ -115,7 +115,7 @@
                 android:layout_height="wrap_content"
                 android:text="0"
                 android:layout_alignParentRight="true"
-                android:textSize="15sp"
+                android:textSize="10sp"
                 />
 
         </RelativeLayout>
@@ -133,7 +133,7 @@
                 android:layout_height="wrap_content"
                 android:text="TIDAK BELI"
                 android:layout_alignParentLeft="true"
-                android:textSize="15sp"
+                android:textSize="10sp"
                 />
 
             <TextView
@@ -141,7 +141,7 @@
                 android:layout_height="wrap_content"
                 android:text="BELI"
                 android:gravity="center"
-                android:textSize="15sp"
+                android:textSize="10sp"
                 />
 
             <TextView
@@ -150,7 +150,7 @@
                 android:layout_height="wrap_content"
                 android:text="0"
                 android:layout_alignParentRight="true"
-                android:textSize="15sp"
+                android:textSize="10sp"
                 />
 
         </RelativeLayout>
@@ -168,7 +168,7 @@
                 android:layout_height="wrap_content"
                 android:text="TIDAK BELI"
                 android:layout_alignParentLeft="true"
-                android:textSize="15sp"
+                android:textSize="10sp"
                 />
 
             <TextView
@@ -176,7 +176,7 @@
                 android:layout_height="wrap_content"
                 android:text="TIDAK BELI"
                 android:gravity="center"
-                android:textSize="15sp"
+                android:textSize="10sp"
                 />
 
             <TextView
@@ -185,7 +185,7 @@
                 android:layout_height="wrap_content"
                 android:text="0"
                 android:layout_alignParentRight="true"
-                android:textSize="15sp"
+                android:textSize="10sp"
                 />
 
         </RelativeLayout>

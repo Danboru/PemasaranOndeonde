@@ -24,7 +24,7 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="672014113 - Danang Priabada"
+        android:text="672014125 - Sujud Fitri Ala'i"
         android:gravity="center"
         android:layout_marginTop="10dp"
         />
@@ -36,6 +36,7 @@
         android:text="Version 1.8"
         android:gravity="center"
         android:textStyle="bold"
+        android:layout_marginBottom="10dp"
         />
 
 </LinearLayout>
